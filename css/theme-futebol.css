@@ -1,0 +1,423 @@
+/* ==========================================================================
+   theme-futebol.css — camada de tema com motivos de futebol
+   Aplicada por cima de style.css. Usa variáveis já definidas e adiciona
+   decorações sutis: linhas de campo, paleta verde-grama/branco/dourado e
+   bola estilizada em SVG inline (data URI).
+   ========================================================================== */
+
+/* --- Tokens específicos do tema ----------------------------------------- */
+
+:root {
+  /* Paleta verde-grama / branco / dourado */
+  --futebol-grama-clara: #6cb86b;
+  --futebol-grama: #4a9a4a;
+  --futebol-grama-escura: #2f7d34;
+  --futebol-grama-bem-escura: #1d5a22;
+
+  --futebol-linha-campo: rgba(255, 255, 255, 0.85);
+  --futebol-linha-campo-suave: rgba(255, 255, 255, 0.55);
+
+  --futebol-dourado: #f5c518;
+  --futebol-dourado-escuro: #c69c0a;
+  --futebol-dourado-suave: #fff3b8;
+
+  --futebol-branco: #ffffff;
+  --futebol-couro: #fdf8e8;
+
+  /* Bola SVG inline reutilizável como background-image */
+  --futebol-bola-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%23ffffff' stroke='%23142410' stroke-width='2'/><polygon points='32,14 41,21 37,32 27,32 23,21' fill='%23142410'/><polygon points='32,14 41,21 50,18 48,9 38,7' fill='none' stroke='%23142410' stroke-width='2' stroke-linejoin='round'/><polygon points='32,14 23,21 14,18 16,9 26,7' fill='none' stroke='%23142410' stroke-width='2' stroke-linejoin='round'/><polygon points='41,21 50,18 54,28 50,38 37,32' fill='none' stroke='%23142410' stroke-width='2' stroke-linejoin='round'/><polygon points='23,21 14,18 10,28 14,38 27,32' fill='none' stroke='%23142410' stroke-width='2' stroke-linejoin='round'/><polygon points='37,32 50,38 46,50 32,52 27,32' fill='none' stroke='%23142410' stroke-width='2' stroke-linejoin='round'/><polygon points='27,32 14,38 18,50 32,52' fill='none' stroke='%23142410' stroke-width='2' stroke-linejoin='round'/></svg>");
+}
+
+/* --- Fundo: campo de futebol estilizado --------------------------------- */
+/*
+   Listras horizontais alternadas simulam o gramado cortado em faixas, como
+   nos estádios. Mantemos contraste baixo entre as faixas para não cansar a
+   vista da criança e deixamos o conteúdo respirar acima.
+*/
+
+body {
+  background-color: var(--futebol-grama);
+  background-image:
+    linear-gradient(
+      to bottom,
+      var(--futebol-grama-clara) 0,
+      var(--futebol-grama-clara) 80px,
+      var(--futebol-grama) 80px,
+      var(--futebol-grama) 160px
+    );
+  background-attachment: fixed;
+  background-size: 100% 160px;
+}
+
+/* Em dispositivos com ponteiro grosso (touch), troca background-attachment
+   para o padrão (scroll): em iOS Safari "fixed" causa repintura pesada e
+   scroll travado. O visual do gramado se mantém praticamente idêntico. */
+@media (pointer: coarse) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
+/* O contêiner do app fica como um "cartão de jogo" sobre o gramado, para
+   manter a legibilidade do texto. */
+.app {
+  background-color: var(--cor-fundo);
+  border-radius: var(--raio-grande);
+  box-shadow: var(--sombra-elevada);
+  margin-top: var(--esp-5);
+  margin-bottom: var(--esp-5);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Faixa decorativa superior do app: simula a linha lateral do campo. */
+.app::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 8px;
+  background:
+    linear-gradient(
+      90deg,
+      var(--futebol-grama-escura) 0%,
+      var(--futebol-grama) 25%,
+      var(--futebol-dourado) 50%,
+      var(--futebol-grama) 75%,
+      var(--futebol-grama-escura) 100%
+    );
+  pointer-events: none;
+}
+
+/* --- Componente: campo de futebol (decoração de tela de jogo) ----------- */
+/*
+   .campo é um contêiner que renderiza linhas brancas de campo (lateral,
+   meio-campo e círculo central) com gradients radiais e lineares. Útil
+   para os minigames e telas de seleção, sem precisar de imagem externa.
+*/
+
+.campo {
+  position: relative;
+  background-color: var(--futebol-grama-escura);
+  background-image:
+    /* círculo central */
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 0,
+      transparent 60px,
+      var(--futebol-linha-campo) 60px,
+      var(--futebol-linha-campo) 64px,
+      transparent 64px
+    ),
+    /* linha do meio */
+    linear-gradient(
+      to right,
+      transparent 0,
+      transparent calc(50% - 2px),
+      var(--futebol-linha-campo) calc(50% - 2px),
+      var(--futebol-linha-campo) calc(50% + 2px),
+      transparent calc(50% + 2px)
+    ),
+    /* faixas alternadas suaves do gramado */
+    repeating-linear-gradient(
+      to bottom,
+      var(--futebol-grama-escura) 0,
+      var(--futebol-grama-escura) 28px,
+      var(--futebol-grama) 28px,
+      var(--futebol-grama) 56px
+    );
+  border: 4px solid var(--futebol-linha-campo);
+  border-radius: var(--raio-medio);
+  color: var(--futebol-branco);
+  padding: var(--esp-6);
+  min-height: 220px;
+}
+
+/* --- Componente: bola (ícone reutilizável) ------------------------------ */
+
+.bola {
+  display: inline-block;
+  width: 1.4em;
+  height: 1.4em;
+  background-image: var(--futebol-bola-svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  vertical-align: -0.25em;
+  flex-shrink: 0;
+}
+
+.bola--grande {
+  width: 4rem;
+  height: 4rem;
+}
+
+.bola--gigante {
+  width: 6rem;
+  height: 6rem;
+}
+
+/* Animação de bola rolando para feedback de acerto. Curta e discreta. */
+@keyframes bola-rolar {
+  from { transform: rotate(0); }
+  to { transform: rotate(360deg); }
+}
+
+.bola--rolando {
+  animation: bola-rolar 1.2s linear infinite;
+}
+
+/* --- Pílula de moedas (com motivo dourado) ------------------------------ */
+/*
+   Sobrescreve a aparência da .pilula quando combinada com .pilula--moedas
+   para destacar o saldo de moedas com o dourado do tema.
+*/
+
+.pilula--moedas {
+  color: var(--cor-texto);
+  background-color: var(--futebol-dourado-suave);
+  border-color: var(--futebol-dourado);
+  box-shadow: 0 0 0 2px rgba(245, 197, 24, 0.18);
+}
+
+.pilula--moedas::before {
+  content: "";
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #fff7c2 0, var(--futebol-dourado) 60%, var(--futebol-dourado-escuro) 100%);
+  border: 2px solid var(--futebol-dourado-escuro);
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.08);
+  margin-right: var(--esp-1);
+}
+
+/* --- Botão primário com sotaque de futebol ------------------------------ */
+/*
+   Reutiliza .botao do style.css; .botao--futebol troca a cor para o verde
+   gramado mais saturado e adiciona um leve realce dourado ao foco.
+*/
+
+.botao--futebol {
+  background-color: var(--futebol-grama-escura);
+}
+
+.botao--futebol:hover,
+.botao--futebol:focus-visible {
+  background-color: var(--futebol-grama-bem-escura);
+}
+
+.botao--futebol:focus-visible {
+  outline-color: var(--futebol-dourado);
+}
+
+/* Em dispositivos sem hover real (tablet/celular), reverte o "hover preso"
+   que iOS Safari mantém após o tap até o próximo toque em outro elemento. */
+@media (hover: none) {
+  .botao--futebol:hover {
+    background-color: var(--futebol-grama-escura);
+  }
+}
+
+/* --- Cartão "placar" — usado para pontuação e estatísticas ------------- */
+
+.placar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-3);
+  padding: var(--esp-3) var(--esp-5);
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-forte);
+  font-size: var(--tam-grande);
+  color: var(--futebol-dourado-suave);
+  background:
+    linear-gradient(
+      180deg,
+      #1a1a1a 0%,
+      #2a2a2a 50%,
+      #1a1a1a 100%
+    );
+  border: 3px solid var(--futebol-dourado);
+  border-radius: var(--raio-medio);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.1),
+    var(--sombra-media);
+  letter-spacing: 0.05em;
+}
+
+.placar__valor {
+  color: var(--futebol-dourado);
+  font-variant-numeric: tabular-nums;
+  min-width: 2ch;
+  text-align: right;
+}
+
+/* --- Cabeçalho de tela com motivo de campo ------------------------------ */
+
+.tela--futebol .tela__titulo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-3);
+}
+
+.tela--futebol .tela__titulo::before {
+  content: "";
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  background-image: var(--futebol-bola-svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+/* --- Linha de campo decorativa (separador de seções) -------------------- */
+
+.linha-campo {
+  height: 4px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--futebol-linha-campo) 0,
+      var(--futebol-linha-campo) 24px,
+      transparent 24px,
+      transparent 36px
+    ),
+    var(--futebol-grama-escura);
+  border: 0;
+  margin: var(--esp-5) 0;
+  border-radius: 2px;
+}
+
+/* --- Feedback de acerto: gol! ------------------------------------------- */
+/*
+   Quando .feedback--acerto também tiver .feedback--gol, mostra um pequeno
+   destaque dourado (estilo "GOOOL!") com a bola animada.
+*/
+
+.feedback--gol {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  background:
+    linear-gradient(
+      90deg,
+      var(--cor-acerto-fundo) 0%,
+      var(--futebol-dourado-suave) 100%
+    );
+  border-left-color: var(--futebol-dourado-escuro);
+}
+
+.feedback--gol::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-image: var(--futebol-bola-svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation: bola-rolar 1s linear 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bola--rolando,
+  .feedback--gol::before {
+    animation: none;
+  }
+}
+
+/* --- Avatar do jogador (placeholder estilizado) ------------------------- */
+/*
+   Caixa quadrada com gradient verde representando a camisa do jogador.
+   Os módulos JS irão sobrescrever cores/itens via inline-style ou classes.
+*/
+
+.avatar-jogador {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      var(--futebol-branco) 0,
+      var(--futebol-branco) 28%,
+      var(--futebol-grama) 30%,
+      var(--futebol-grama-escura) 100%
+    );
+  border: 4px solid var(--futebol-branco);
+  box-shadow: var(--sombra-media);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: var(--futebol-branco);
+}
+
+.avatar-jogador--pequeno {
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.25rem;
+  border-width: 2px;
+}
+
+/* --- Responsivo: encolhe decorações em telas menores -------------------- */
+
+@media (max-width: 900px) {
+  body {
+    background-size: 100% 120px;
+    background-image:
+      linear-gradient(
+        to bottom,
+        var(--futebol-grama-clara) 0,
+        var(--futebol-grama-clara) 60px,
+        var(--futebol-grama) 60px,
+        var(--futebol-grama) 120px
+      );
+  }
+
+  .app {
+    margin-top: var(--esp-3);
+    margin-bottom: var(--esp-3);
+    border-radius: var(--raio-medio);
+  }
+
+  .campo {
+    padding: var(--esp-5);
+    min-height: 160px;
+  }
+
+  .placar {
+    font-size: var(--tam-medio);
+    padding: var(--esp-2) var(--esp-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .app {
+    margin-top: 0;
+    margin-bottom: 0;
+    border-radius: 0;
+  }
+
+  .app::before {
+    height: 6px;
+  }
+}
+
+/* --- Acessibilidade: contraste alto ------------------------------------- */
+
+@media (prefers-contrast: more) {
+  :root {
+    --futebol-linha-campo: #ffffff;
+    --futebol-linha-campo-suave: #ffffff;
+  }
+
+  .campo {
+    border-width: 6px;
+  }
+
+  .pilula--moedas {
+    border-width: 3px;
+  }
+}

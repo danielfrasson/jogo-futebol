@@ -1,0 +1,12 @@
+.env.local
+.env
+.ralph/status/
+.ralph/logs/
+.ralph/flaky-report.txt
+.ralph/pipeline-report.md
+*-progress.txt
+node_modules/
+.DS_Store
+desktop.ini
+Thumbs.db
+*.log

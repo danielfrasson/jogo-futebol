@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2e7d32">
+  <meta name="description" content="Jogo educativo de futebol — leitura, escrita e matemática para crianças de 8 anos.">
+  <meta name="color-scheme" content="light">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Jogo de Futebol — Leitura, Escrita e Matemática</title>
+
+  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/theme-futebol.css?v=3">
+</head>
+<body>
+  <a class="skip-link" href="#app">Pular para o jogo</a>
+
+  <noscript>
+    <p>Este jogo precisa de JavaScript ativado para funcionar. Por favor, ative o JavaScript no seu navegador.</p>
+  </noscript>
+
+  <main id="app" class="app" tabindex="-1">
+    <!-- As telas do jogo são montadas dinamicamente aqui pelo js/ui.js e js/main.js -->
+  </main>
+
+  <!-- Bancos de dados de exercícios -->
+  <script src="js/data/leitura-exercicios.js?v=3" defer></script>
+  <script src="js/data/escrita-exercicios.js?v=3" defer></script>
+  <script src="js/data/matematica-exercicios.js?v=3" defer></script>
+
+  <!-- Núcleo: persistência, áudio e UI -->
+  <script src="js/storage.js?v=3" defer></script>
+  <script src="js/audio.js?v=3" defer></script>
+  <script src="js/ui.js?v=3" defer></script>
+
+  <!-- Animações de comemoração (acerto): sem dependências, fica antes dos jogos -->
+  <script src="js/comemoracao.js?v=3" defer></script>
+
+  <!-- Sistema central de moedas e pontuação (precisa de Storage e Ui) -->
+  <script src="js/moedas.js?v=3" defer></script>
+
+  <!-- Utilitário Fisher-Yates compartilhado por Historico e pelos minigames -->
+  <script src="js/utils/embaralhar.js?v=3" defer></script>
+
+  <!-- Histórico de exercícios já vistos (não-repetição cross-sessão) -->
+  <script src="js/historico.js?v=3" defer></script>
+
+  <!-- Dificuldade adaptativa por eixo (precisa de Storage) -->
+  <script src="js/dificuldade.js?v=3" defer></script>
+
+  <!-- Perfil do jogador (precisa de Storage e Ui já carregados) -->
+  <script src="js/jogador.js?v=3" defer></script>
+
+  <!-- Loja cosmética (precisa de Storage, Ui, Moedas e Jogador) -->
+  <script src="js/loja.js?v=3" defer></script>
+
+  <!-- Tela de progresso/estatísticas (precisa de Moedas, Loja e Jogador) -->
+  <script src="js/progresso.js?v=3" defer></script>
+
+  <!-- Helper compartilhado pelos minigames (tela de fim-de-sessão) -->
+  <script src="js/games/sessao-resumo.js?v=3" defer></script>
+
+  <!-- Painel de feedback compartilhado pelos minigames de input (escrita, matemática) -->
+  <script src="js/games/feedback-exercicio.js?v=3" defer></script>
+
+  <!-- Cabeçalho de sessão compartilhado pelos 3 minigames -->
+  <script src="js/games/cabecalho-sessao.js?v=3" defer></script>
+
+  <!-- Bootstrap de sessão compartilhado pelos 3 minigames (resolve dificuldade,
+       escolhe exercícios, registra no histórico, modal "sem exercícios") -->
+  <script src="js/games/sessao-bootstrap.js?v=3" defer></script>
+
+  <!-- Substituição dos exercícios restantes ao mudar de nível adaptativo -->
+  <script src="js/games/dificuldade-adaptativa.js?v=3" defer></script>
+
+  <!-- Minigames -->
+  <script src="js/games/leitura.js?v=3" defer></script>
+  <script src="js/games/escrita.js?v=3" defer></script>
+  <script src="js/games/matematica.js?v=3" defer></script>
+
+  <!-- Tela de escolha de eixo (precisa dos minigames carregados) -->
+  <script src="js/escolha-eixo.js?v=3" defer></script>
+
+  <!-- Orquestrador principal -->
+  <script src="js/main.js?v=3" defer></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+status/
+logs/
+flaky-report.txt
+pipeline-report.md

@@ -1,0 +1,1874 @@
+/* ==========================================================================
+   style.css — base, reset, tipografia, layout responsivo
+   Jogo Educativo de Futebol — alvo: crianças de ~8 anos, desktop e tablet
+   ========================================================================== */
+
+/* --- Reset moderno (inspirado em Josh Comeau / Andy Bell) ----------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+picture,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* --- Variáveis de design (tokens) ---------------------------------------- */
+
+:root {
+  /* Cores neutras — alto contraste (WCAG AA) */
+  --cor-fundo: #f7faf6;
+  --cor-fundo-elevada: #ffffff;
+  --cor-texto: #14241a;             /* contraste ~14:1 sobre fundo */
+  --cor-texto-suave: #3a4a40;       /* contraste ~8:1 */
+  --cor-borda: #c9d6cd;
+  --cor-foco: #ffb300;              /* dourado — anel de foco visível */
+
+  /* Cores semânticas (acerto/erro suave/info) */
+  --cor-acerto: #2e7d32;
+  --cor-acerto-fundo: #e6f4ea;
+  --cor-erro: #b85c00;              /* laranja queimado: erro sem agressividade */
+  --cor-erro-fundo: #fff1e0;
+  --cor-info: #1565c0;
+  --cor-info-fundo: #e6f0fb;
+
+  /* Tipografia — fonte grande para leitura confortável */
+  --fonte-base: "Atkinson Hyperlegible", "Verdana", "Trebuchet MS", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fonte-titulo: "Atkinson Hyperlegible", "Verdana", "Trebuchet MS", system-ui, sans-serif;
+
+  --tam-base: 1.25rem;              /* 20px — corpo grande para criança */
+  --tam-pequeno: 1rem;              /* 16px */
+  --tam-medio: 1.5rem;              /* 24px */
+  --tam-grande: 2rem;               /* 32px */
+  --tam-titulo: 2.75rem;            /* 44px */
+  --tam-display: 3.5rem;            /* 56px — títulos de tela */
+
+  --peso-regular: 400;
+  --peso-medio: 600;
+  --peso-forte: 800;
+
+  --altura-linha-confortavel: 1.6;
+  --altura-linha-apertada: 1.25;
+  --espacamento-letra: 0.01em;
+
+  /* Espaçamento — escala generosa */
+  --esp-1: 0.25rem;   /* 4px  */
+  --esp-2: 0.5rem;    /* 8px  */
+  --esp-3: 0.75rem;   /* 12px */
+  --esp-4: 1rem;      /* 16px */
+  --esp-5: 1.5rem;    /* 24px */
+  --esp-6: 2rem;      /* 32px */
+  --esp-7: 3rem;      /* 48px */
+  --esp-8: 4rem;      /* 64px */
+
+  /* Raios e sombras */
+  --raio-pequeno: 0.5rem;
+  --raio-medio: 0.875rem;
+  --raio-grande: 1.25rem;
+  --raio-pill: 999px;
+
+  --sombra-suave: 0 2px 6px rgba(20, 36, 26, 0.08);
+  --sombra-media: 0 6px 18px rgba(20, 36, 26, 0.12);
+  --sombra-elevada: 0 12px 32px rgba(20, 36, 26, 0.16);
+
+  /* Alvos de toque (mínimo 48px conforme WCAG/Material) */
+  --alvo-toque: 3rem;
+  --alvo-toque-grande: 3.5rem;
+
+  /* Larguras de leitura/conteúdo */
+  --largura-leitura: 60ch;
+  --largura-app: 1100px;
+
+  /* Animação */
+  --transicao-rapida: 150ms ease-out;
+  --transicao-padrao: 240ms ease-out;
+}
+
+/* --- Base / corpo -------------------------------------------------------- */
+
+html {
+  font-size: 100%;
+}
+
+body {
+  font-family: var(--fonte-base);
+  font-size: var(--tam-base);
+  font-weight: var(--peso-regular);
+  line-height: var(--altura-linha-confortavel);
+  letter-spacing: var(--espacamento-letra);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
+  /* Layout flex para centralizar o app verticalmente em telas grandes */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Contêiner do app — limita largura e respira nas laterais */
+.app {
+  width: 100%;
+  max-width: var(--largura-app);
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--esp-5) var(--esp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-5);
+}
+
+/* --- Tipografia ---------------------------------------------------------- */
+
+h1, h2, h3, h4 {
+  font-family: var(--fonte-titulo);
+  font-weight: var(--peso-forte);
+  line-height: var(--altura-linha-apertada);
+  color: var(--cor-texto);
+}
+
+h1 {
+  font-size: var(--tam-display);
+}
+
+h2 {
+  font-size: var(--tam-titulo);
+}
+
+h3 {
+  font-size: var(--tam-grande);
+}
+
+h4 {
+  font-size: var(--tam-medio);
+}
+
+p {
+  max-width: var(--largura-leitura);
+  margin-bottom: var(--esp-4);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+strong, b {
+  font-weight: var(--peso-forte);
+}
+
+/* Texto enfático / destaque (usado em narrações de leitura) */
+.texto-destaque {
+  background: linear-gradient(transparent 60%, #fff3a8 60%);
+  padding: 0 0.15em;
+  font-weight: var(--peso-medio);
+}
+
+.texto-suave {
+  color: var(--cor-texto-suave);
+}
+
+/* --- Botões grandes acessíveis ------------------------------------------ */
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-3);
+  min-height: var(--alvo-toque-grande);
+  padding: var(--esp-3) var(--esp-6);
+  font-family: var(--fonte-base);
+  font-size: var(--tam-medio);
+  font-weight: var(--peso-forte);
+  line-height: 1.2;
+  color: var(--cor-fundo-elevada);
+  background-color: var(--cor-acerto);
+  border-radius: var(--raio-grande);
+  box-shadow: var(--sombra-media);
+  transition: transform var(--transicao-rapida),
+              box-shadow var(--transicao-padrao),
+              background-color var(--transicao-padrao);
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.botao:hover,
+.botao:focus-visible {
+  background-color: #1f5b24;
+  box-shadow: var(--sombra-elevada);
+}
+
+.botao:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: var(--sombra-suave);
+}
+
+.botao--secundario {
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo-elevada);
+  border: 2px solid var(--cor-borda);
+  box-shadow: var(--sombra-suave);
+}
+
+.botao--secundario:hover,
+.botao--secundario:focus-visible {
+  background-color: #f0f5ee;
+  border-color: var(--cor-acerto);
+}
+
+.botao--perigo {
+  background-color: #b3261e;
+}
+
+.botao--perigo:hover,
+.botao--perigo:focus-visible {
+  background-color: #8c1d17;
+}
+
+.botao--bloco {
+  width: 100%;
+}
+
+.botao[disabled],
+.botao[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --- Inputs -------------------------------------------------------------- */
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  margin-bottom: var(--esp-4);
+}
+
+.campo__rotulo {
+  font-weight: var(--peso-medio);
+  font-size: var(--tam-base);
+}
+
+.campo__input {
+  min-height: var(--alvo-toque);
+  padding: var(--esp-3) var(--esp-4);
+  font-size: var(--tam-medio);
+  font-family: var(--fonte-base);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo-elevada);
+  border: 2px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  transition: border-color var(--transicao-rapida),
+              box-shadow var(--transicao-rapida);
+}
+
+.campo__input:focus {
+  border-color: var(--cor-acerto);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.2);
+}
+
+/* --- Cartão / superfícies elevadas -------------------------------------- */
+
+.cartao {
+  background-color: var(--cor-fundo-elevada);
+  border-radius: var(--raio-grande);
+  padding: var(--esp-6);
+  box-shadow: var(--sombra-suave);
+  border: 1px solid var(--cor-borda);
+}
+
+.cartao + .cartao {
+  margin-top: var(--esp-5);
+}
+
+/* --- Tela / seção de conteúdo ------------------------------------------- */
+
+.tela {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-5);
+  flex: 1 1 auto;
+}
+
+.tela__cabecalho {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-4);
+}
+
+.tela__titulo {
+  font-size: var(--tam-titulo);
+  margin: 0;
+}
+
+.tela__corpo {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-5);
+}
+
+.tela__rodape {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-4);
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* --- Grade flexível (usada na escolha de eixos, loja etc.) -------------- */
+
+.grade {
+  display: grid;
+  gap: var(--esp-5);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+}
+
+.grade--apertada {
+  gap: var(--esp-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+}
+
+/* --- Menu / lista vertical de ações ------------------------------------ */
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.menu__subtitulo {
+  text-align: center;
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+.tela--menu .tela__cabecalho {
+  justify-content: center;
+  text-align: center;
+}
+
+/* --- Tela de criação/edição de jogador --------------------------------- */
+
+.tela--criar-jogador .tela__corpo {
+  max-width: 36rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.criar-jogador__preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-3);
+  padding: var(--esp-5);
+  background-color: var(--cor-fundo-elevada);
+  border-radius: var(--raio-grande);
+  border: 1px solid var(--cor-borda);
+  box-shadow: var(--sombra-suave);
+}
+
+.criar-jogador__avatar {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.criar-jogador__preview-nome {
+  font-size: var(--tam-grande);
+  font-weight: var(--peso-forte);
+  text-align: center;
+  margin: 0;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+.criar-jogador__preview-nome--vazio {
+  color: var(--cor-texto-suave);
+  font-style: italic;
+  font-weight: var(--peso-medio);
+}
+
+.criar-jogador__dica {
+  font-size: var(--tam-pequeno);
+  margin: 0;
+}
+
+/* Grupo de escolha (avatar / cor uniforme / categoria de loja etc.) */
+
+.grupo-escolha {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  padding: var(--esp-4) var(--esp-5);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  background-color: var(--cor-fundo-elevada);
+}
+
+.grupo-escolha__rotulo {
+  font-weight: var(--peso-medio);
+  font-size: var(--tam-base);
+  padding: 0 var(--esp-2);
+}
+
+.grupo-escolha__opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-3);
+}
+
+.opcao-avatar,
+.opcao-cor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--raio-medio);
+  border: 3px solid var(--cor-borda);
+  background-color: var(--cor-fundo-elevada);
+  cursor: pointer;
+  transition: transform var(--transicao-rapida),
+              border-color var(--transicao-padrao),
+              box-shadow var(--transicao-padrao);
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.opcao-avatar:active,
+.opcao-cor:active {
+  transform: scale(0.96);
+}
+
+.opcao-avatar {
+  width: var(--alvo-toque-grande);
+  height: var(--alvo-toque-grande);
+  min-width: var(--alvo-toque-grande);
+  font-size: var(--tam-grande);
+  line-height: 1;
+}
+
+.opcao-cor {
+  width: 3.25rem;
+  height: 3.25rem;
+  min-width: 3.25rem;
+  position: relative;
+}
+
+.opcao-avatar[aria-checked="true"],
+.opcao-cor[aria-checked="true"] {
+  border-color: var(--cor-foco);
+  box-shadow: 0 0 0 4px rgba(255, 179, 0, 0.25);
+  transform: scale(1.05);
+}
+
+.opcao-cor[aria-checked="true"]::after {
+  content: "✓";
+  color: #ffffff;
+  font-weight: var(--peso-forte);
+  font-size: var(--tam-medio);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+}
+
+@media (hover: none) {
+  .opcao-avatar:hover,
+  .opcao-cor:hover {
+    transform: none;
+  }
+}
+
+/* --- Pílulas / contadores (moedas, pontuação) --------------------------- */
+
+.pilula {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  padding: var(--esp-2) var(--esp-4);
+  font-weight: var(--peso-forte);
+  font-size: var(--tam-base);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo-elevada);
+  border: 2px solid var(--cor-borda);
+  border-radius: var(--raio-pill);
+}
+
+/* --- Mensagens de feedback (acerto/erro) -------------------------------- */
+
+.feedback {
+  padding: var(--esp-4) var(--esp-5);
+  border-radius: var(--raio-medio);
+  font-weight: var(--peso-medio);
+  border-left: 6px solid currentColor;
+}
+
+.feedback--acerto {
+  color: var(--cor-acerto);
+  background-color: var(--cor-acerto-fundo);
+}
+
+.feedback--erro {
+  color: var(--cor-erro);
+  background-color: var(--cor-erro-fundo);
+}
+
+.feedback--info {
+  color: var(--cor-info);
+  background-color: var(--cor-info-fundo);
+}
+
+/* --- Acessibilidade: foco visível --------------------------------------- */
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 4px solid var(--cor-foco);
+  outline-offset: 3px;
+  border-radius: var(--raio-pequeno);
+}
+
+/* Foco programático em containers (main, título de tela) não deve mostrar
+   outline, pois é apenas para reposicionar leitores de tela após troca. */
+#app:focus,
+.tela__titulo:focus {
+  outline: none;
+}
+
+/* Visualmente escondido, mas disponível para leitores de tela */
+.sr-apenas {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip link (WCAG 2.4.1 Bypass Blocks): some quando não focado, salta
+   visualmente ao topo ao receber foco para que usuário de teclado possa
+   pular o eventual cabeçalho/anúncios e ir direto ao jogo. */
+.skip-link {
+  position: absolute;
+  left: var(--esp-3);
+  top: -3rem;
+  z-index: 1000;
+  padding: var(--esp-3) var(--esp-5);
+  background-color: var(--cor-acerto);
+  color: var(--cor-fundo-elevada);
+  font-weight: var(--peso-forte);
+  font-size: var(--tam-base);
+  border-radius: var(--raio-medio);
+  text-decoration: none;
+  transition: top var(--transicao-rapida);
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: var(--esp-3);
+}
+
+/* --- Animações utilitárias ---------------------------------------------- */
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.anima-aparecer {
+  animation: aparecer var(--transicao-padrao) both;
+}
+
+@keyframes desaparecer {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+.anima-saindo {
+  animation: desaparecer var(--transicao-padrao) both;
+}
+
+/* --- Modal --------------------------------------------------------------- */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--esp-5);
+  background-color: rgba(20, 36, 26, 0.55);
+  z-index: 100;
+  animation: aparecer var(--transicao-padrao) both;
+}
+
+.modal__caixa {
+  background-color: var(--cor-fundo-elevada);
+  border-radius: var(--raio-grande);
+  padding: var(--esp-6);
+  box-shadow: var(--sombra-elevada);
+  border: 1px solid var(--cor-borda);
+  max-width: 32rem;
+  width: 100%;
+  max-height: calc(100vh - var(--esp-7));
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  outline: none;
+}
+
+.modal__titulo {
+  font-size: var(--tam-grande);
+  margin: 0;
+}
+
+.modal__corpo {
+  font-size: var(--tam-base);
+}
+
+.modal__corpo p + p {
+  margin-top: var(--esp-3);
+}
+
+.modal__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-3);
+  justify-content: flex-end;
+  margin-top: var(--esp-2);
+}
+
+body.com-modal {
+  overflow: hidden;
+}
+
+/* Botão dentro de modal cresce em telas estreitas para facilitar o toque. */
+@media (max-width: 480px) {
+  .modal__caixa {
+    padding: var(--esp-5);
+  }
+
+  .modal__acoes {
+    justify-content: stretch;
+  }
+
+  .modal__acoes .botao {
+    flex: 1 1 auto;
+  }
+}
+
+/* --- Responsivo: tablet (até ~900px) ------------------------------------ */
+
+@media (max-width: 900px) {
+  :root {
+    --tam-base: 1.15rem;
+    --tam-medio: 1.35rem;
+    --tam-grande: 1.75rem;
+    --tam-titulo: 2.25rem;
+    --tam-display: 2.75rem;
+  }
+
+  .app {
+    padding: var(--esp-4) var(--esp-3);
+    gap: var(--esp-4);
+  }
+
+  .cartao {
+    padding: var(--esp-5);
+  }
+
+  .tela__rodape {
+    justify-content: stretch;
+  }
+
+  .tela__rodape .botao {
+    flex: 1 1 auto;
+  }
+}
+
+/* --- Responsivo: celular pequeno (até ~480px) — fallback gracioso ------- */
+
+@media (max-width: 480px) {
+  :root {
+    --tam-base: 1.0625rem;     /* 17px */
+    --tam-titulo: 2rem;
+    --tam-display: 2.25rem;
+  }
+
+  .app {
+    padding: var(--esp-3) var(--esp-3);
+  }
+
+  .cartao {
+    padding: var(--esp-4);
+    border-radius: var(--raio-medio);
+  }
+
+  .botao {
+    width: 100%;
+  }
+}
+
+/* --- Acessibilidade: redução de movimento ------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --- Acessibilidade: contraste alto (preferência do SO) ----------------- */
+
+@media (prefers-contrast: more) {
+  :root {
+    --cor-borda: #1a1a1a;
+    --cor-texto-suave: #1a2a20;
+  }
+
+  .cartao,
+  .campo__input,
+  .pilula {
+    border-width: 2px;
+  }
+}
+
+/* --- Suporte a touch: remove hover stuck no tablet ----------------------
+   Em dispositivos sem hover real (tablet/celular), o iOS Safari mantém o
+   estado :hover "preso" depois de um tap até o usuário tocar em outro
+   lugar. Reverter aqui evita botões com cor errada após o clique. */
+
+@media (hover: none) {
+  .botao:hover {
+    background-color: var(--cor-acerto);
+    box-shadow: var(--sombra-media);
+  }
+
+  .botao--secundario:hover {
+    background-color: var(--cor-fundo-elevada);
+    border-color: var(--cor-borda);
+  }
+
+  .botao--perigo:hover {
+    background-color: #b3261e;
+  }
+
+  .loja__aba:hover {
+    border-color: var(--cor-borda);
+  }
+}
+
+/* --- Minigame de leitura ------------------------------------------------- */
+
+.tela--leitura .tela__corpo {
+  max-width: 44rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.leitura__indicadores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-3);
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.leitura__narracao {
+  background-color: var(--cor-fundo-elevada);
+  border-left: 6px solid var(--futebol-grama-escura);
+}
+
+.leitura__narracao-titulo {
+  font-size: var(--tam-grande);
+  margin-bottom: var(--esp-3);
+}
+
+.leitura__narracao-texto {
+  font-size: var(--tam-medio);
+  line-height: var(--altura-linha-confortavel);
+  max-width: none;
+}
+
+.leitura__pergunta {
+  font-size: var(--tam-grande);
+  font-weight: var(--peso-forte);
+  text-align: center;
+  max-width: none;
+  margin: 0;
+}
+
+.leitura__alternativas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+}
+
+.leitura__alternativa {
+  text-align: left;
+  justify-content: flex-start;
+  white-space: normal;
+}
+
+.leitura__alternativa--correta {
+  background-color: var(--cor-acerto-fundo);
+  color: var(--cor-acerto);
+  border-color: var(--cor-acerto);
+}
+
+.leitura__alternativa--errada {
+  background-color: var(--cor-erro-fundo);
+  color: var(--cor-erro);
+  border-color: var(--cor-erro);
+}
+
+.leitura__feedback-rodape {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  align-items: stretch;
+}
+
+.feedback__detalhe,
+.feedback__moedas {
+  font-weight: var(--peso-medio);
+}
+
+.leitura__resumo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-5);
+  text-align: center;
+}
+
+.leitura__resumo-elogio {
+  font-size: var(--tam-grande);
+  font-weight: var(--peso-forte);
+  margin: 0;
+  max-width: none;
+}
+
+.leitura__resumo-placar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-4);
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Minigame de escrita ------------------------------------------------- */
+
+.tela--escrita .tela__corpo {
+  max-width: 44rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.escrita__indicadores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-3);
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.escrita__cartao {
+  background-color: var(--cor-fundo-elevada);
+  border-left: 6px solid var(--futebol-grama-escura);
+}
+
+.escrita__rotulo {
+  font-size: var(--tam-medio);
+  margin: 0 0 var(--esp-3) 0;
+  color: var(--cor-texto-suave);
+  max-width: none;
+}
+
+.escrita__frase {
+  font-size: var(--tam-grande);
+  line-height: var(--altura-linha-confortavel);
+  text-align: center;
+  margin: 0;
+  max-width: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+  align-items: center;
+  justify-content: center;
+}
+
+.escrita__input {
+  display: inline-block;
+  min-height: var(--alvo-toque);
+  min-width: 8rem;
+  max-width: 14rem;
+  padding: var(--esp-2) var(--esp-3);
+  font-size: var(--tam-grande);
+  font-family: var(--fonte-base);
+  font-weight: var(--peso-forte);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
+  border: 2px dashed var(--cor-acerto);
+  border-radius: var(--raio-medio);
+  text-align: center;
+  vertical-align: middle;
+  transition: border-color var(--transicao-rapida),
+              background-color var(--transicao-rapida),
+              box-shadow var(--transicao-rapida);
+}
+
+.escrita__input:focus {
+  border-style: solid;
+  border-color: var(--cor-acerto);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.25);
+}
+
+.escrita__input:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.escrita__input--correto {
+  background-color: var(--cor-acerto-fundo);
+  color: var(--cor-acerto);
+  border-color: var(--cor-acerto);
+  border-style: solid;
+}
+
+.escrita__input--errado {
+  background-color: var(--cor-erro-fundo);
+  border-color: var(--cor-erro);
+  border-style: solid;
+  animation: escrita-tremor 0.4s ease-in-out;
+}
+
+@keyframes escrita-tremor {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .escrita__input--errado {
+    animation: none;
+  }
+}
+
+.escrita__foco {
+  font-size: var(--tam-pequeno);
+  text-align: center;
+  margin: var(--esp-3) 0 0 0;
+  max-width: none;
+}
+
+.escrita__area-feedback {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+}
+
+.escrita__feedback-rodape {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  align-items: stretch;
+}
+
+.escrita__revelacao {
+  display: inline-block;
+  font-size: var(--tam-grande);
+  font-weight: var(--peso-forte);
+  letter-spacing: 0.05em;
+  margin-left: var(--esp-2);
+}
+
+.escrita__resumo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-5);
+  text-align: center;
+}
+
+.escrita__resumo-elogio {
+  font-size: var(--tam-grande);
+  font-weight: var(--peso-forte);
+  margin: 0;
+  max-width: none;
+}
+
+.escrita__resumo-placar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-4);
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Minigame de matemática --------------------------------------------- */
+
+.tela--matematica .tela__corpo {
+  max-width: 44rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.matematica__indicadores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-3);
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.matematica__cartao {
+  background-color: var(--cor-fundo-elevada);
+  border-left: 6px solid var(--futebol-grama-escura);
+}
+
+.matematica__rotulo {
+  font-size: var(--tam-medio);
+  margin: 0 0 var(--esp-3) 0;
+  color: var(--cor-texto-suave);
+  max-width: none;
+}
+
+.matematica__enunciado {
+  font-size: var(--tam-grande);
+  line-height: var(--altura-linha-confortavel);
+  margin: 0;
+  max-width: none;
+}
+
+.matematica__resposta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-3);
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--esp-4);
+}
+
+.matematica__rotulo-input {
+  font-size: var(--tam-medio);
+  font-weight: var(--peso-medio);
+  color: var(--cor-texto-suave);
+}
+
+.matematica__input {
+  display: inline-block;
+  min-height: var(--alvo-toque);
+  min-width: 6rem;
+  max-width: 9rem;
+  padding: var(--esp-2) var(--esp-3);
+  font-size: var(--tam-titulo);
+  font-family: var(--fonte-base);
+  font-weight: var(--peso-forte);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
+  border: 2px dashed var(--cor-acerto);
+  border-radius: var(--raio-medio);
+  text-align: center;
+  vertical-align: middle;
+  transition: border-color var(--transicao-rapida),
+              background-color var(--transicao-rapida),
+              box-shadow var(--transicao-rapida);
+}
+
+.matematica__input:focus {
+  border-style: solid;
+  border-color: var(--cor-acerto);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.25);
+}
+
+.matematica__input:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.matematica__input--correto {
+  background-color: var(--cor-acerto-fundo);
+  color: var(--cor-acerto);
+  border-color: var(--cor-acerto);
+  border-style: solid;
+}
+
+.matematica__input--errado {
+  background-color: var(--cor-erro-fundo);
+  border-color: var(--cor-erro);
+  border-style: solid;
+  animation: matematica-tremor 0.4s ease-in-out;
+}
+
+@keyframes matematica-tremor {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .matematica__input--errado {
+    animation: none;
+  }
+}
+
+.matematica__area-feedback {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+}
+
+.matematica__feedback-rodape {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  align-items: stretch;
+}
+
+.matematica__revelacao {
+  display: inline-block;
+  font-size: var(--tam-grande);
+  font-weight: var(--peso-forte);
+  letter-spacing: 0.05em;
+  margin-left: var(--esp-2);
+}
+
+.matematica__resumo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-5);
+  text-align: center;
+}
+
+.matematica__resumo-elogio {
+  font-size: var(--tam-grande);
+  font-weight: var(--peso-forte);
+  margin: 0;
+  max-width: none;
+}
+
+.matematica__resumo-placar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-4);
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Avatar do jogador: badges sobrepostos da loja ---------------------- */
+
+.avatar-jogador--decorado {
+  position: relative;
+  overflow: visible;
+}
+
+.avatar-jogador__badge {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cor-fundo-elevada);
+  border: 2px solid var(--cor-borda);
+  border-radius: 50%;
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  box-shadow: var(--sombra-suave);
+  pointer-events: none;
+}
+
+.avatar-jogador__badge--chuteira {
+  right: -0.25rem;
+  bottom: -0.25rem;
+}
+
+.avatar-jogador__badge--trofeu {
+  right: -0.25rem;
+  top: -0.25rem;
+  background-color: var(--futebol-dourado-suave);
+  border-color: var(--futebol-dourado);
+}
+
+.avatar-jogador__badge--peito {
+  left: 50%;
+  bottom: 0.4rem;
+  transform: translateX(-50%);
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.92);
+}
+
+.avatar-jogador--pequeno .avatar-jogador__badge {
+  width: 1.4rem;
+  height: 1.4rem;
+  font-size: 0.85rem;
+  border-width: 1px;
+}
+
+.avatar-jogador--pequeno .avatar-jogador__badge--peito {
+  width: 1.1rem;
+  height: 1.1rem;
+  font-size: 0.7rem;
+}
+
+/* --- Bloco do jogador no menu inicial ----------------------------------- */
+
+.menu__jogador {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-3);
+  margin: 0 auto;
+}
+
+.menu__nome-jogador {
+  font-size: var(--tam-grande);
+  font-weight: var(--peso-forte);
+  text-align: center;
+  margin: 0;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+/* --- Tela da loja -------------------------------------------------------- */
+
+.tela--loja .tela__corpo {
+  max-width: 56rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.loja__avatar-bloco {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.loja__subtitulo {
+  text-align: center;
+  max-width: 44rem;
+  margin: 0 auto;
+}
+
+.loja__abas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+  justify-content: center;
+}
+
+.loja__aba {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--alvo-toque);
+  padding: var(--esp-2) var(--esp-5);
+  font-size: var(--tam-base);
+  font-weight: var(--peso-forte);
+  font-family: var(--fonte-base);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo-elevada);
+  border: 2px solid var(--cor-borda);
+  border-radius: var(--raio-pill);
+  cursor: pointer;
+  transition: background-color var(--transicao-rapida),
+              border-color var(--transicao-padrao),
+              box-shadow var(--transicao-padrao);
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.loja__aba[aria-selected="true"] {
+  background-color: var(--cor-acerto);
+  border-color: var(--cor-acerto);
+  color: var(--cor-fundo-elevada);
+  box-shadow: var(--sombra-suave);
+}
+
+.loja__aba:hover,
+.loja__aba:focus-visible {
+  border-color: var(--cor-acerto);
+}
+
+.loja__aba:active {
+  transform: scale(0.97);
+}
+
+.loja__painel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+}
+
+.loja__retirar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.loja__grade {
+  align-items: stretch;
+}
+
+.loja__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--esp-3);
+  padding: var(--esp-5);
+}
+
+.loja__item--equipado {
+  border: 3px solid var(--cor-foco);
+  box-shadow: 0 0 0 4px rgba(255, 179, 0, 0.18);
+}
+
+.loja__item--comprado {
+  border-color: var(--cor-acerto);
+}
+
+.loja__item--bloqueado {
+  opacity: 0.85;
+}
+
+.loja__item-preview {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  font-size: 2.25rem;
+  background-color: var(--cor-fundo);
+  border: 2px solid var(--cor-borda);
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.loja__item-preview--camisa {
+  color: var(--cor-fundo-elevada);
+  border-color: rgba(255, 255, 255, 0.6);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.loja__item-titulo {
+  font-size: var(--tam-medio);
+  margin: 0;
+}
+
+.loja__item-desc {
+  font-size: var(--tam-base);
+  margin: 0;
+  max-width: none;
+}
+
+.loja__item-preco {
+  align-self: center;
+}
+
+.loja__item-acoes {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.loja__item-estado--equipado {
+  background-color: var(--cor-acerto-fundo);
+  color: var(--cor-acerto);
+  border-color: var(--cor-acerto);
+}
+
+.loja__status {
+  min-height: 0;
+}
+
+.loja__status:empty {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .loja__abas {
+    justify-content: stretch;
+  }
+  .loja__aba {
+    flex: 1 1 auto;
+    padding: var(--esp-2) var(--esp-3);
+  }
+  .loja__item {
+    padding: var(--esp-4);
+  }
+}
+
+/* --- Tela de progresso/estatísticas ------------------------------------- */
+
+.tela--progresso .tela__corpo {
+  max-width: 56rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.progresso__avatar-bloco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-3);
+  margin: 0 auto;
+}
+
+.progresso__nome-jogador {
+  font-size: var(--tam-grande);
+  font-weight: var(--peso-forte);
+  text-align: center;
+  margin: 0;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+.progresso__subtitulo {
+  text-align: center;
+  max-width: 44rem;
+  margin: 0 auto;
+}
+
+.progresso__cartao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+}
+
+.progresso__cartao-titulo {
+  font-size: var(--tam-grande);
+  margin: 0;
+}
+
+.progresso__cartao-detalhe {
+  margin: 0;
+  max-width: none;
+}
+
+.progresso__saldo-grande {
+  font-size: var(--tam-display);
+  font-weight: var(--peso-forte);
+  color: var(--futebol-dourado-escuro, #c98800);
+  margin: 0;
+  line-height: 1;
+  text-align: center;
+}
+
+.progresso__cartao--moedas {
+  align-items: stretch;
+  text-align: center;
+}
+
+.progresso__grade-eixos {
+  align-items: stretch;
+}
+
+.progresso__cartao--eixo {
+  border-left: 6px solid var(--futebol-grama-escura, var(--cor-acerto));
+}
+
+.progresso__pilulas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+  align-items: center;
+}
+
+.pilula--acerto {
+  color: var(--cor-acerto);
+  border-color: var(--cor-acerto);
+  background-color: var(--cor-acerto-fundo);
+}
+
+.pilula--erro {
+  color: var(--cor-erro);
+  border-color: var(--cor-erro);
+  background-color: var(--cor-erro-fundo);
+}
+
+.progresso__taxa {
+  margin: 0;
+  font-weight: var(--peso-medio);
+  max-width: none;
+}
+
+.progresso__colecao-resumo {
+  margin: 0;
+  font-weight: var(--peso-medio);
+  font-size: var(--tam-medio);
+}
+
+.progresso__colecao-categorias {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.progresso__colecao-cat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  padding: var(--esp-4);
+  background-color: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+}
+
+.progresso__colecao-cat-topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-3);
+}
+
+.progresso__colecao-cat-nome {
+  font-weight: var(--peso-forte);
+  font-size: var(--tam-medio);
+}
+
+.progresso__colecao-itens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.progresso__colecao-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  padding: var(--esp-2) var(--esp-3);
+  background-color: var(--cor-fundo-elevada);
+  border: 2px solid var(--cor-borda);
+  border-radius: var(--raio-pill);
+  font-size: var(--tam-pequeno);
+}
+
+.progresso__colecao-item-icone {
+  font-size: var(--tam-base);
+  line-height: 1;
+}
+
+.progresso__colecao-item--equipado {
+  border-color: var(--cor-foco);
+  background-color: rgba(255, 179, 0, 0.12);
+  font-weight: var(--peso-forte);
+}
+
+.progresso__colecao-item--vazio {
+  font-style: italic;
+  border-style: dashed;
+}
+
+@media (max-width: 480px) {
+  .progresso__cartao {
+    padding: var(--esp-4);
+  }
+  .progresso__saldo-grande {
+    font-size: var(--tam-titulo);
+  }
+}
+
+/* --- Animações de comemoração (acerto) ---------------------------------- */
+
+.comemoracao {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 200;
+}
+
+.confete {
+  position: absolute;
+  top: -3rem;
+  width: 12px;
+  height: 8px;
+  border-radius: 2px;
+  transform: translate(0, -3rem) rotate(0deg);
+  animation-name: comemoracao-confete;
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
+  animation-fill-mode: both;
+  will-change: transform, opacity;
+}
+
+.confete--circulo {
+  border-radius: 50%;
+}
+
+@keyframes comemoracao-confete {
+  0% {
+    transform: translate(0, -3rem) rotate(var(--rot-ini, 0deg));
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--deriva, 0), 110vh) rotate(var(--rot-fim, 720deg));
+    opacity: 0.95;
+  }
+}
+
+.comemoracao__gol {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  width: 14rem;
+  height: 7rem;
+  transform: translateX(-50%);
+}
+
+.comemoracao__trave {
+  position: absolute;
+  inset: 0;
+  border: 5px solid var(--cor-fundo-elevada);
+  border-bottom: none;
+  border-radius: var(--raio-medio) var(--raio-medio) 0 0;
+  background: linear-gradient(180deg, transparent, rgba(20, 36, 26, 0.08));
+  box-shadow: 0 6px 18px rgba(20, 36, 26, 0.18);
+  opacity: 0;
+  animation: comemoracao-trave 1.6s ease-out both;
+}
+
+@keyframes comemoracao-trave {
+  0% { opacity: 0; transform: scale(0.85); }
+  20% { opacity: 0.9; transform: scale(1); }
+  100% { opacity: 0.9; transform: scale(1); }
+}
+
+.comemoracao__bola {
+  position: absolute;
+  left: 50%;
+  bottom: 0.8rem;
+  font-size: 2.6rem;
+  line-height: 1;
+  transform: translate(-50%, 60vh) scale(0.5) rotate(0deg);
+  animation: comemoracao-bola 1.4s cubic-bezier(0.2, 0.6, 0.4, 1) both;
+  filter: drop-shadow(0 4px 6px rgba(20, 36, 26, 0.25));
+}
+
+@keyframes comemoracao-bola {
+  0% {
+    transform: translate(-50%, 60vh) scale(0.5) rotate(0deg);
+    opacity: 0;
+  }
+  20% { opacity: 1; }
+  60% {
+    transform: translate(-50%, -1.2rem) scale(1.05) rotate(540deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 0) scale(1) rotate(720deg);
+    opacity: 1;
+  }
+}
+
+.comemoracao--reduzida {
+  background: radial-gradient(
+    circle at 50% 40%,
+    rgba(255, 179, 0, 0.28),
+    rgba(255, 179, 0, 0) 60%
+  );
+  animation: comemoracao-brilho 320ms ease-out both;
+}
+
+@keyframes comemoracao-brilho {
+  0% { opacity: 0; }
+  40% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Mensagens de erro: aparição suave, sem chacoalhar (acolhe quem errou). */
+.feedback--erro {
+  animation: feedback-aparecer 320ms ease-out both;
+}
+
+@keyframes feedback-aparecer {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Tela de escolha de eixo -------------------------------------------- */
+
+.tela--escolha-eixo .tela__corpo {
+  max-width: 44rem;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-5);
+  align-items: center;
+}
+
+.escolha-eixo__avatar-bloco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-2);
+}
+
+.escolha-eixo__nome-jogador {
+  font-size: var(--tam-medio);
+  font-weight: var(--peso-forte);
+  text-align: center;
+  margin: 0;
+}
+
+.escolha-eixo__subtitulo {
+  text-align: center;
+  max-width: 36rem;
+  margin: 0 auto;
+  font-size: var(--tam-medio);
+}
+
+.escolha-eixo__opcoes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  width: 100%;
+}
+
+/* Cada opção é um botão grande (variante futebol) com ícone gigante,
+   rótulo e descrição empilhados — mais convidativo que botão de texto puro
+   e ajuda a criança a reconhecer cada eixo pelo símbolo. */
+.escolha-eixo__opcao {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: var(--esp-4);
+  row-gap: var(--esp-1);
+  align-items: center;
+  justify-items: start;
+  text-align: left;
+  padding: var(--esp-5) var(--esp-5);
+  min-height: calc(var(--alvo-toque) * 1.6);
+}
+
+.escolha-eixo__icone {
+  grid-row: 1 / span 2;
+  grid-column: 1;
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  line-height: 1;
+}
+
+.escolha-eixo__rotulo {
+  grid-row: 1;
+  grid-column: 2;
+  font-size: var(--tam-grande);
+  font-weight: var(--peso-forte);
+  line-height: 1.1;
+}
+
+.escolha-eixo__descricao {
+  grid-row: 2;
+  grid-column: 2;
+  font-size: var(--tam-base);
+  font-weight: var(--peso-regular);
+  line-height: 1.3;
+  opacity: 0.92;
+}
+
+@media (max-width: 480px) {
+  .escolha-eixo__opcao {
+    padding: var(--esp-4);
+    column-gap: var(--esp-3);
+  }
+  .escolha-eixo__rotulo {
+    font-size: var(--tam-medio);
+  }
+  .escolha-eixo__descricao {
+    font-size: var(--tam-pequeno);
+  }
+}
+
+/* --- Mensagem de noscript ----------------------------------------------- */
+
+noscript p {
+  display: block;
+  margin: var(--esp-5);
+  padding: var(--esp-5);
+  background-color: var(--cor-info-fundo);
+  color: var(--cor-info);
+  border-radius: var(--raio-medio);
+  font-weight: var(--peso-medio);
+  text-align: center;
+}
