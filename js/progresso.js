@@ -23,7 +23,8 @@
   var EIXOS = [
     { id: 'leitura',    rotulo: 'Leitura',    icone: '📖' },
     { id: 'escrita',    rotulo: 'Escrita',    icone: '✏️' },
-    { id: 'matematica', rotulo: 'Matemática', icone: '➕' }
+    { id: 'matematica', rotulo: 'Matemática', icone: '➕' },
+    { id: 'reconto',    rotulo: 'Histórias',  icone: '🎤' }
   ];
 
   function obterDoc() {

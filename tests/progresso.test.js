@@ -48,11 +48,12 @@ teste('progresso.calcularResumo: sem Moedas e sem Loja devolve estado neutro', f
   assertEqual(r.errosGeral, 0);
   assertEqual(r.taxaGeral, 0, 'taxaGeral=0 quando totalGeral=0 (evita NaN)');
   assertEqual(r.colecao, null, 'sem Loja, colecao é null');
-  // Sempre tem os 3 eixos, mesmo zerados.
-  assertEqual(r.eixos.length, 3);
+  // Sempre tem os 4 eixos, mesmo zerados (leitura, escrita, matemática, reconto).
+  assertEqual(r.eixos.length, 4);
   assertEqual(r.eixos[0].id, 'leitura');
   assertEqual(r.eixos[1].id, 'escrita');
   assertEqual(r.eixos[2].id, 'matematica');
+  assertEqual(r.eixos[3].id, 'reconto');
   for (var i = 0; i < r.eixos.length; i++) {
     assertEqual(r.eixos[i].total, 0);
     assertEqual(r.eixos[i].acertos, 0);
@@ -209,7 +210,7 @@ teste('progresso.calcularResumo: Loja sem ITENS válido devolve colecao=null', f
   var r = Progresso.calcularResumo();
   assertEqual(r.colecao, null);
   // Eixos e saldo continuam funcionando.
-  assertEqual(r.eixos.length, 3);
+  assertEqual(r.eixos.length, 4);
 });
 
 teste('progresso.calcularResumo: Loja sem obterInventario usa inventário vazio', function () {

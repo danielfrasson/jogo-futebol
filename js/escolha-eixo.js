@@ -41,6 +41,13 @@
       icone: '➕',
       descricao: 'Resolva problemas com gols, jogadores e times.',
       modulo: 'JogoMatematica'
+    },
+    {
+      id: 'reconto',
+      rotulo: 'Contar Histórias',
+      icone: '🎤',
+      descricao: 'Ouça uma história e conte com as suas palavras.',
+      modulo: 'JogoReconto'
     }
   ];
 

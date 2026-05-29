@@ -1872,3 +1872,272 @@ noscript p {
   font-weight: var(--peso-medio);
   text-align: center;
 }
+
+/* === Minigame de Reconto (Contar Histórias) ============================= */
+
+/* Cartão com a história a recontar (mesmo espírito da narração de leitura). */
+.reconto__historia {
+  background-color: var(--cor-fundo-elevada);
+  border-left: 6px solid var(--futebol-dourado);
+}
+
+.reconto__hist-titulo {
+  font-size: var(--tam-grande);
+  margin-bottom: var(--esp-3);
+}
+
+.reconto__hist-texto {
+  font-size: var(--tam-medio);
+  line-height: var(--altura-linha-confortavel);
+  max-width: none;
+}
+
+.reconto__dica-leitura {
+  text-align: center;
+  font-size: var(--tam-base);
+}
+
+.reconto__acoes-topo {
+  display: flex;
+  justify-content: center;
+}
+
+.reconto__instrucao {
+  font-size: var(--tam-base);
+  line-height: var(--altura-linha-confortavel);
+  background-color: var(--cor-info-fundo);
+  color: var(--cor-texto);
+  border-radius: var(--raio-medio);
+  padding: var(--esp-4);
+  max-width: none;
+}
+
+/* "Detalhes" recolhível para reler a história durante a gravação. */
+.reconto__historia-recolhe,
+.reconto__transcricao-final {
+  background-color: var(--cor-fundo-elevada);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  padding: var(--esp-3) var(--esp-4);
+}
+
+.reconto__historia-recolhe summary,
+.reconto__transcricao-final summary {
+  cursor: pointer;
+  font-weight: var(--peso-medio);
+  font-size: var(--tam-base);
+  padding: var(--esp-1) 0;
+}
+
+/* Bloco do gravador: botão grande + indicador "gravando". */
+.reconto__gravador {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-2);
+}
+
+.reconto__btn-gravar {
+  font-size: var(--tam-medio);
+  min-height: var(--alvo-toque-grande);
+}
+
+/* Estado gravando: vermelho pulsante para sinalizar "ao vivo". */
+.reconto__btn-gravar--ativo,
+.reconto__btn-gravar--ativo:hover {
+  background-color: #c62828;
+  border-color: #8e1c1c;
+  color: #fff;
+  animation: reconto-pulso 1.4s ease-in-out infinite;
+}
+
+.reconto__indicador {
+  min-height: 1.4em;
+  font-weight: var(--peso-forte);
+  color: #c62828;
+  letter-spacing: var(--espacamento-letra);
+}
+
+.reconto__indicador--ativo {
+  animation: reconto-pisca 1s steps(2, start) infinite;
+}
+
+@keyframes reconto-pulso {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(198, 40, 40, 0.45); }
+  50%      { box-shadow: 0 0 0 12px rgba(198, 40, 40, 0); }
+}
+
+@keyframes reconto-pisca {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.35; }
+  100% { opacity: 1; }
+}
+
+/* Transcrição ao vivo da fala. */
+.reconto__transcricao {
+  min-height: 4.5em;
+  background-color: var(--cor-fundo-elevada);
+  border: 2px dashed var(--cor-borda);
+  border-radius: var(--raio-medio);
+  padding: var(--esp-4);
+  font-size: var(--tam-base);
+  line-height: var(--altura-linha-confortavel);
+  color: var(--cor-texto);
+}
+
+.reconto__transcricao:empty::before {
+  content: "Sua história vai aparecer aqui enquanto você fala...";
+  color: var(--cor-texto-suave);
+  font-style: italic;
+}
+
+/* Textarea de fallback (navegador sem transcrição ou erro de microfone). */
+.reconto__textarea {
+  display: none;
+  width: 100%;
+  font-family: var(--fonte-base);
+  font-size: var(--tam-base);
+  line-height: var(--altura-linha-confortavel);
+  padding: var(--esp-4);
+  border: 2px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  background-color: var(--cor-fundo-elevada);
+  color: var(--cor-texto);
+  resize: vertical;
+}
+
+.reconto__textarea--visivel {
+  display: block;
+}
+
+.reconto__textarea:focus {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 2px;
+  border-color: var(--futebol-grama-escura);
+}
+
+.reconto__erro-voz {
+  color: var(--cor-erro);
+  font-weight: var(--peso-medio);
+  text-align: center;
+  max-width: none;
+}
+
+.reconto__erro-voz:empty {
+  display: none;
+}
+
+/* Painel das 5 medalhas (elementos do reconto). */
+.reconto__medalhas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  width: 100%;
+}
+
+.reconto__medalha {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  padding: var(--esp-3) var(--esp-4);
+  border-radius: var(--raio-medio);
+  border: 2px solid var(--cor-borda);
+  background-color: var(--cor-fundo-elevada);
+  font-size: var(--tam-base);
+}
+
+.reconto__medalha--ok {
+  background-color: var(--cor-acerto-fundo);
+  border-color: var(--cor-acerto);
+  color: var(--cor-acerto);
+}
+
+.reconto__medalha--falta {
+  border-style: dashed;
+  color: var(--cor-texto-suave);
+}
+
+.reconto__medalha-icone {
+  font-size: var(--tam-grande);
+  line-height: 1;
+}
+
+.reconto__medalha-rotulo {
+  flex: 1 1 auto;
+  font-weight: var(--peso-medio);
+}
+
+.reconto__medalha-status {
+  font-size: var(--tam-grande);
+  font-weight: var(--peso-forte);
+  line-height: 1;
+}
+
+.reconto__medalhas--compacto .reconto__medalha {
+  padding: var(--esp-2) var(--esp-3);
+  font-size: var(--tam-pequeno);
+}
+
+.reconto__medalhas--compacto .reconto__medalha-icone,
+.reconto__medalhas--compacto .reconto__medalha-status {
+  font-size: var(--tam-medio);
+}
+
+/* Tela de resultado. */
+.reconto__resumo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-4);
+  text-align: center;
+}
+
+.reconto__resumo-elogio {
+  font-size: var(--tam-grande);
+  font-weight: var(--peso-forte);
+  color: var(--futebol-grama-escura);
+  max-width: none;
+}
+
+.reconto__resumo-placar {
+  font-size: var(--tam-base);
+  color: var(--cor-texto-suave);
+  margin: 0;
+}
+
+.reconto__ideia-ref {
+  background-color: var(--futebol-dourado-suave);
+  border-left: 6px solid var(--futebol-dourado);
+}
+
+.reconto__ideia-ref p {
+  margin: var(--esp-2) 0 0;
+  font-size: var(--tam-base);
+  line-height: var(--altura-linha-confortavel);
+  max-width: none;
+}
+
+.reconto__audio-bloco {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+}
+
+.reconto__audio {
+  width: 100%;
+}
+
+.reconto__fase {
+  background-color: var(--futebol-dourado-suave);
+  color: var(--futebol-dourado-escuro);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reconto__btn-gravar--ativo,
+  .reconto__indicador--ativo {
+    animation: none;
+  }
+}
