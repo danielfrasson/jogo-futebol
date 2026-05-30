@@ -38,13 +38,11 @@
   'use strict';
 
   var EIXO = 'olho-aguia';
-  var MECANICAS = ['intruso', 'mudou', 'contar'];
+  var MECANICAS = ['intruso', 'mudou', 'contar', 'falta'];
   var TAMANHO_SESSAO_PADRAO = 6;
 
-  // Tempo de memorização da mecânica "mudou" antes do auto-avanço (ms). Só
-  // dispara quando o usuário NÃO pediu movimento reduzido — nesse caso o avanço
-  // é só manual, sem timers nem surpresas.
-  var TEMPO_MEMORIZAR = 3500;
+  // Tempo de memorização padrão — fallback quando o exercício não traz o campo.
+  var TEMPO_MEMORIZAR_PADRAO = 3500;
 
   // Mensagens de incentivo: alternam para não ficar repetitivo. Tom acolhedor;
   // erro nunca é "ruim" — é apenas mais uma chance de treinar o olhar.
@@ -169,12 +167,40 @@
       });
     }
 
-    // --- Grade de células (emoji decorativo + aria-label de posição) ------
+    // --- Renderiza um símbolo: emoji (string) ou figura SVG (objeto/spec) ---
     /*
-     * Monta uma grade de `colunas` colunas com um <button> por símbolo. O emoji
+     * Cria um <span> com o visual do símbolo. Se o símbolo é STRING → emoji
+     * clássico com classe olho-aguia__emoji. Se é OBJETO (spec de forma) →
+     * SVG inline via OlhoAguiaFormas.svgDe, com classe olho-aguia__forma.
+     * Ambos são aria-hidden (decorativos); a acessibilidade fica no botão pai.
+     */
+    function criarVisualSimbolo(simbolo) {
+      if (typeof simbolo === 'string') {
+        return Ui.criarElemento('span', {
+          classe: 'olho-aguia__emoji',
+          atributos: { 'aria-hidden': 'true' },
+          texto: simbolo
+        });
+      }
+      // Spec de forma → SVG inline
+      var FormasModulo = global.OlhoAguiaFormas;
+      var svgStr = (FormasModulo && typeof FormasModulo.svgDe === 'function')
+        ? FormasModulo.svgDe(simbolo)
+        : '';
+      return Ui.criarElemento('span', {
+        classe: 'olho-aguia__forma',
+        atributos: { 'aria-hidden': 'true' },
+        html: svgStr
+      });
+    }
+
+    // --- Grade de células (emoji ou figura SVG + aria-label de posição) ---
+    /*
+     * Monta uma grade de `colunas` colunas com um <button> por símbolo. O visual
      * é aria-hidden (decorativo); a informação acessível vai no aria-label do
      * botão ("Quadro, linha L, coluna C"). Quando `aoTocar` é nulo (mecânica
      * "contar"), as células viram somente-leitura (não focáveis nem clicáveis).
+     * Aceita itens string (emoji) OU objeto (spec de forma).
      */
     function construirGrade(simbolos, colunas, aoTocar, rotuloGrade) {
       var cols = (typeof colunas === 'number' && colunas > 0) ? Math.floor(colunas) : 3;
@@ -196,19 +222,14 @@
           var coluna = (idx % cols) + 1;
           var rotuloCelula = 'Quadro, linha ' + linha + ', coluna ' + coluna;
 
-          var emoji = Ui.criarElemento('span', {
-            classe: 'olho-aguia__emoji',
-            atributos: { 'aria-hidden': 'true' },
-            texto: simbolo
-          });
+          var visual = criarVisualSimbolo(simbolo);
 
           var celula;
           if (somenteLeitura) {
-            // Célula passiva: não recebe foco nem clique, mas é anunciada.
             celula = Ui.criarElemento('span', {
               classe: ['olho-aguia__celula', 'olho-aguia__celula--leitura'],
               atributos: { role: 'listitem', 'aria-label': rotuloCelula },
-              filhos: [emoji]
+              filhos: [visual]
             });
           } else {
             celula = Ui.criarElemento('button', {
@@ -218,7 +239,7 @@
                 'aria-label': rotuloCelula,
                 'data-idx': String(idx)
               },
-              filhos: [emoji],
+              filhos: [visual],
               eventos: { click: function () { aoTocar(idx, celula); } }
             });
           }
@@ -279,6 +300,7 @@
         case 'intruso': return renderizarIntruso(exercicio);
         case 'mudou':   return renderizarMudouMemorizar(exercicio);
         case 'contar':  return renderizarContar(exercicio);
+        case 'falta':   return renderizarFalta(exercicio);
         default:        return avancar();
       }
     }
@@ -348,11 +370,15 @@
 
       // Auto-avança após alguns segundos — EXCETO com movimento reduzido, onde
       // só avança no toque do botão (sem timers nem mudanças automáticas).
+      // Usa tempoMemorizar do exercício com fallback para a constante padrão.
+      var tempoMemorizar = (typeof exercicio.tempoMemorizar === 'number' && exercicio.tempoMemorizar > 0)
+        ? exercicio.tempoMemorizar
+        : TEMPO_MEMORIZAR_PADRAO;
       if (!reduz && typeof global.setTimeout === 'function') {
         timerMemorizar = global.setTimeout(function () {
           timerMemorizar = null;
           renderizarMudouEncontrar(exercicio);
-        }, TEMPO_MEMORIZAR);
+        }, tempoMemorizar);
       }
     }
 
@@ -633,6 +659,67 @@
       try { btnContinuar.focus(); } catch (_e) { /* silenciado */ }
     }
 
+    // ====================================================================
+    // MECÂNICA: falta — descobrir a parte que sumiu de um objeto
+    // ====================================================================
+    function renderizarFalta(exercicio) {
+      var FormasModulo = global.OlhoAguiaFormas;
+      var svgStr = (FormasModulo && typeof FormasModulo.svgObjeto === 'function')
+        ? FormasModulo.svgObjeto(exercicio.objeto, exercicio.partes)
+        : '';
+
+      var figuraDiv = Ui.criarElemento('div', {
+        classe: 'olho-aguia__figura',
+        atributos: { 'aria-hidden': 'true' },
+        html: svgStr
+      });
+
+      var opcoes = Array.isArray(exercicio.opcoes) ? exercicio.opcoes : [];
+      var grupoOpcoes = Ui.criarElemento('div', {
+        classe: 'olho-aguia__opcoes',
+        atributos: { role: 'group', 'aria-label': 'Escolha a parte que falta' }
+      });
+      var botoesFalta = [];
+      for (var i = 0; i < opcoes.length; i++) {
+        (function (opcao) {
+          var btn = Ui.criarBotao({
+            texto: opcao.rotulo,
+            variante: 'secundario',
+            classe: ['olho-aguia__opcao', 'olho-aguia__opcao--texto'],
+            atributos: { 'data-id': opcao.id },
+            aoClicar: function () {
+              responderFalta(exercicio, opcao.id, botoesFalta);
+            }
+          });
+          botoesFalta.push(btn);
+          grupoOpcoes.appendChild(btn);
+        })(opcoes[i]);
+      }
+
+      montarTela([
+        construirEnunciado(exercicio),
+        figuraDiv,
+        grupoOpcoes
+      ]);
+    }
+
+    function responderFalta(exercicio, idEscolhido, botoes) {
+      var resultado = Avaliacao.avaliarResposta(exercicio, idEscolhido);
+      // Desabilita todos os botões e marca o correto (verde) e o errado (laranja)
+      for (var i = 0; i < botoes.length; i++) {
+        var b = botoes[i];
+        b.disabled = true;
+        b.setAttribute('aria-disabled', 'true');
+        var idAttr = b.getAttribute('data-id');
+        if (idAttr === exercicio.resposta) {
+          b.classList.add('olho-aguia__opcao--correta');
+        } else if (idAttr === idEscolhido && !resultado.correto) {
+          b.classList.add('olho-aguia__opcao--errada');
+        }
+      }
+      finalizarResposta(exercicio, resultado.correto);
+    }
+
     // Frase de apoio (gabarito) quando a criança erra, por mecânica.
     function detalheErro(exercicio) {
       if (exercicio.mecanica === 'contar') {
@@ -642,6 +729,19 @@
       if (exercicio.mecanica === 'mudou') {
         var qtd = Array.isArray(exercicio.mudancas) ? exercicio.mudancas.length : 0;
         return 'Veja em verde o que tinha mudado (' + qtd + ').';
+      }
+      if (exercicio.mecanica === 'falta') {
+        // Busca o rótulo da parte correta nas opcoes do exercício
+        var rotuloCorreto = '';
+        if (Array.isArray(exercicio.opcoes)) {
+          for (var k = 0; k < exercicio.opcoes.length; k++) {
+            if (exercicio.opcoes[k].id === exercicio.resposta) {
+              rotuloCorreto = exercicio.opcoes[k].rotulo;
+              break;
+            }
+          }
+        }
+        return 'A parte que faltava: ' + (rotuloCorreto || exercicio.resposta) + '.';
       }
       // intruso
       return 'O diferente está marcado em verde.';

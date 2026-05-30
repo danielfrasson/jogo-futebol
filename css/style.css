@@ -2200,6 +2200,69 @@ noscript p {
   font-size: 2.6rem;
 }
 
+/* Figuras SVG inline — espelham o comportamento do emoji mas com dimensão fixa. */
+.olho-aguia__forma {
+  display: block;
+  width: 2.6rem;
+  height: 2.6rem;
+  line-height: 1;
+}
+
+/* Ajusta o tamanho das figuras conforme o número de colunas da grade. */
+.olho-aguia__grade[style*="--colunas:3"] .olho-aguia__forma {
+  width: 2.8rem;
+  height: 2.8rem;
+}
+
+.olho-aguia__grade[style*="--colunas:4"] .olho-aguia__emoji,
+.olho-aguia__grade[style*="--colunas:4"] .olho-aguia__forma {
+  font-size: 2.0rem;
+  width: 2.0rem;
+  height: 2.0rem;
+}
+
+.olho-aguia__grade[style*="--colunas:5"] .olho-aguia__emoji,
+.olho-aguia__grade[style*="--colunas:5"] .olho-aguia__forma {
+  font-size: 1.7rem;
+  width: 1.7rem;
+  height: 1.7rem;
+}
+
+.olho-aguia__grade[style*="--colunas:6"] .olho-aguia__emoji,
+.olho-aguia__grade[style*="--colunas:6"] .olho-aguia__forma {
+  font-size: 1.4rem;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+/* Container da mecânica "falta": SVG grande e centralizado. */
+.olho-aguia__figura {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 14rem;
+  margin: 0 auto;
+}
+
+.olho-aguia__figura svg {
+  width: 11rem;
+  height: 11rem;
+  display: block;
+}
+
+/* Botões de texto da mecânica "falta": largura confortável, texto legível. */
+.olho-aguia__opcao--texto {
+  min-width: 10rem;
+  min-height: var(--alvo-toque-grande);
+  white-space: normal;
+  word-break: break-word;
+  padding: var(--esp-2) var(--esp-4);
+  font-size: var(--tam-base);
+  text-align: center;
+  line-height: var(--altura-linha-confortavel);
+}
+
 .olho-aguia__celula:hover {
   border-color: var(--futebol-grama-escura);
   transform: translateY(-2px);
@@ -2314,7 +2377,8 @@ noscript p {
 @media (prefers-reduced-motion: reduce) {
   .olho-aguia__celula,
   .olho-aguia__celula--correta,
-  .olho-aguia__celula--selecionada {
+  .olho-aguia__celula--selecionada,
+  .olho-aguia__figura {
     transition: none;
     animation: none;
     transform: none;

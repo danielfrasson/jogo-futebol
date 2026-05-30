@@ -156,7 +156,10 @@
     else if (opcoes.variante === 'perigo') { classes.push('botao--perigo'); }
     else if (opcoes.variante === 'futebol') { classes.push('botao--futebol'); }
     if (opcoes.bloco) { classes.push('botao--bloco'); }
-    if (opcoes.classe) { classes.push(opcoes.classe); }
+    if (opcoes.classe) {
+      if (Array.isArray(opcoes.classe)) { classes = classes.concat(opcoes.classe); }
+      else { classes.push(opcoes.classe); }
+    }
 
     var atributos = { type: opcoes.tipo || 'button' };
     if (opcoes.atributos && typeof opcoes.atributos === 'object') {

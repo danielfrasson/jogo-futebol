@@ -59,6 +59,12 @@
       rotulo: 'Caça aos Detalhes',
       icone: '🎯',
       descricao: 'Conte quantos símbolos aparecem.'
+    },
+    {
+      id: 'falta',
+      rotulo: 'O que Falta?',
+      icone: '🧩',
+      descricao: 'Descubra a parte que sumiu da figura.'
     }
   ];
 
@@ -179,6 +185,13 @@
                           (typeof ex.resposta === 'number') &&
                           (resposta === ex.resposta);
       return { correto: corretoContar, esperado: ex.resposta };
+    }
+
+    if (mecanica === 'falta') {
+      var corretoFalta = (typeof resposta === 'string') &&
+                         (typeof ex.resposta === 'string') &&
+                         (resposta === ex.resposta);
+      return { correto: corretoFalta, esperado: ex.resposta };
     }
 
     return { correto: false };
