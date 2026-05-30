@@ -124,6 +124,49 @@
     return s;
   }
 
+  // Colapsa repetições IMEDIATAS de blocos de 1..maxJanela palavras, deixando
+  // só uma cópia. Rede de segurança para quando a transcrição de voz repete a
+  // mesma fala várias vezes ("gol gol gol" → "gol"; "fez o gol fez o gol" →
+  // "fez o gol"). Usada tanto no texto exibido quanto antes de avaliar, para
+  // que repetições não atrapalhem a leitura nem a detecção dos elementos.
+  // Chave de comparação de uma palavra: sem acento, minúscula e sem pontuação
+  // nas bordas — assim "virada" e "virada." (ou "Gol" e "gol") contam como
+  // repetição, mas o texto ORIGINAL (com acento/pontuação) é o que fica.
+  function chavePalavra(token) {
+    return removerAcentos(String(token)).toLowerCase().replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, '');
+  }
+
+  function colapsarRepeticoes(texto, maxJanela) {
+    var arr = String(texto === null || texto === undefined ? '' : texto)
+      .split(/\s+/).filter(Boolean);
+    var keys = arr.map(chavePalavra); // espelho de arr só para comparar
+    var MAX = (typeof maxJanela === 'number' && maxJanela > 0) ? maxJanela : 6;
+    var mudou = true;
+    var guarda = 0; // trava contra laço infinito em entradas patológicas
+    while (mudou && guarda < 2000) {
+      mudou = false;
+      guarda += 1;
+      for (var w = 1; w <= MAX && w * 2 <= arr.length; w++) {
+        var i = 0;
+        while (i + 2 * w <= arr.length) {
+          var iguais = true;
+          for (var k = 0; k < w; k++) {
+            if (keys[i + k] !== keys[i + w + k]) { iguais = false; break; }
+          }
+          if (iguais) {
+            arr.splice(i + w, w);  // remove a cópia imediatamente seguinte
+            keys.splice(i + w, w); // mantém o espelho em sincronia
+            mudou = true;
+            // não avança i: pode haver uma 3ª/4ª cópia logo após
+          } else {
+            i += 1;
+          }
+        }
+      }
+    }
+    return arr.join(' ');
+  }
+
   // Escapa caracteres especiais de regex num termo já normalizado.
   function escaparRegex(s) {
     return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -192,7 +235,9 @@
   function avaliarReconto(transcricao, exercicio) {
     var ex = exercicio || {};
     var defs = ex.elementos || {};
-    var norm = normalizar(transcricao);
+    // Colapsa repetições antes de avaliar: se a transcrição repetiu a mesma
+    // fala várias vezes, isso não deve mudar quais elementos foram ditos.
+    var norm = colapsarRepeticoes(normalizar(transcricao));
     var resultado = {};
     var presentes = 0;
     for (var i = 0; i < ORDEM_ELEMENTOS.length; i++) {
@@ -231,6 +276,7 @@
     MAPA_ACENTOS: MAPA_ACENTOS,
     removerAcentos: removerAcentos,
     normalizar: normalizar,
+    colapsarRepeticoes: colapsarRepeticoes,
     contemTermo: contemTermo,
     escaparRegex: escaparRegex,
     avaliarElemento: avaliarElemento,

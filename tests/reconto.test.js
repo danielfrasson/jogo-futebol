@@ -25,6 +25,53 @@ teste('reconto.normalizar: remove acentos, pontuação e baixa a caixa', functio
   assertEqual(Avaliacao.normalizar(undefined), '');
 });
 
+// --- colapsarRepeticoes (rede de segurança da transcrição) -----------------
+
+teste('reconto.colapsarRepeticoes: colapsa palavra única repetida', function () {
+  assertEqual(Avaliacao.colapsarRepeticoes('gol gol gol gol'), 'gol');
+  assertEqual(Avaliacao.colapsarRepeticoes('o gol gol entrou'), 'o gol entrou');
+});
+
+teste('reconto.colapsarRepeticoes: colapsa frase/bloco repetido', function () {
+  assertEqual(Avaliacao.colapsarRepeticoes('ele fez o gol ele fez o gol ele fez o gol'), 'ele fez o gol');
+  assertEqual(Avaliacao.colapsarRepeticoes('a bola a bola na rede'), 'a bola na rede');
+});
+
+teste('reconto.colapsarRepeticoes: tolera pontuação/maiúscula entre as cópias', function () {
+  // "virada" e "virada." devem contar como repetição; o original é preservado
+  assertEqual(Avaliacao.colapsarRepeticoes('venceu de virada de virada.'), 'venceu de virada');
+  assertEqual(Avaliacao.colapsarRepeticoes('Gol gol GOL'), 'Gol');
+  assertEqual(Avaliacao.colapsarRepeticoes('nao desistir nao desistir.'), 'nao desistir');
+});
+
+teste('reconto.colapsarRepeticoes: texto sem repetição fica intacto (a menos de espaços)', function () {
+  assertEqual(Avaliacao.colapsarRepeticoes('o time venceu de virada'), 'o time venceu de virada');
+  assertEqual(Avaliacao.colapsarRepeticoes('  '), '');
+  assertEqual(Avaliacao.colapsarRepeticoes(null), '');
+});
+
+teste('reconto.avaliarReconto: robusto a transcrição muito repetida', function () {
+  var ex = {
+    dificuldade: 'facil',
+    elementos: {
+      personagens: { termos: ['Téo'] },
+      problema: { termos: ['perdendo'] },
+      tentativa: { termos: ['treinou'] },
+      desfecho: { termos: ['venceu'] },
+      ideiaCentral: { termos: ['não desistir'] }
+    }
+  };
+  // simula a transcrição duplicando a mesma fala várias vezes
+  var falaBoa = 'Téo estava perdendo treinou venceu não desistir';
+  var falaRepetida = (falaBoa + ' ') + (falaBoa + ' ') + (falaBoa + ' ') + falaBoa;
+  var r = Avaliacao.avaliarReconto(falaRepetida, ex);
+  assertEqual(r.presentes, 5, 'repetição não deve alterar quais elementos foram ditos');
+  assertEqual(r.completo, true);
+  // a normalizada já vem colapsada
+  assert(r.transcricaoNormalizada.indexOf('teo estava perdendo treinou venceu nao desistir') === 0,
+    'transcrição normalizada deve estar colapsada: ' + r.transcricaoNormalizada);
+});
+
 // --- contemTermo: exato e radical -----------------------------------------
 
 teste('reconto.contemTermo: casa palavra inteira, não pedaço', function () {

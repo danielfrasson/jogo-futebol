@@ -80,10 +80,23 @@
     var aoErro = typeof opcoes.aoErro === 'function' ? opcoes.aoErro : function () {};
     var aoAudio = typeof opcoes.aoAudio === 'function' ? opcoes.aoAudio : function () {};
 
-    var textoFinal = '';
+    // Acúmulo da transcrição em DUAS partes para evitar duplicação:
+    //  - textoCommitado: finais de sessões de reconhecimento já encerradas
+    //    (a cada reinício automático após pausa, "fechamos" a sessão atual).
+    //  - finais da sessão atual: RECONSTRUÍDOS a cada onresult iterando todos
+    //    os resultados desde 0. Não acumulamos via `resultIndex` porque em
+    //    vários navegadores (Chrome Android em especial) o índice não avança
+    //    de forma confiável e o mesmo trecho final reaparece — o que fazia o
+    //    texto repetir a mesma fala inúmeras vezes.
+    var textoCommitado = '';
+    var finaisSessao = '';
     var pararSolicitado = false;
     var encerrado = false;
     var erroFatal = false;
+
+    function combinar() {
+      return (textoCommitado + ' ' + finaisSessao).replace(/\s+/g, ' ').trim();
+    }
 
     var rec = new SR();
     rec.lang = opcoes.lang || 'pt-BR';
@@ -92,17 +105,20 @@
     try { rec.maxAlternatives = 1; } catch (_e) { /* alguns navegadores */ }
 
     rec.onresult = function (evento) {
+      var finais = '';
       var interim = '';
-      for (var i = evento.resultIndex; i < evento.results.length; i++) {
+      for (var i = 0; i < evento.results.length; i++) {
         var resultado = evento.results[i];
         var transcricao = (resultado[0] && resultado[0].transcript) ? resultado[0].transcript : '';
         if (resultado.isFinal) {
-          textoFinal += transcricao + ' ';
+          finais += transcricao + ' ';
         } else {
-          interim += transcricao;
+          interim += transcricao + ' ';
         }
       }
-      aoParcial((textoFinal + interim).replace(/\s+/g, ' ').trim());
+      // 'finais' é o texto final COMPLETO desta sessão (reconstruído, não somado).
+      finaisSessao = finais;
+      aoParcial((textoCommitado + ' ' + finais + ' ' + interim).replace(/\s+/g, ' ').trim());
     };
 
     rec.onerror = function (evento) {
@@ -118,8 +134,15 @@
     rec.onend = function () {
       // Em modo contínuo, o navegador pode encerrar sozinho após silêncio.
       // Enquanto a criança não pediu para parar e não houve erro fatal,
-      // reiniciamos para não cortar a história no meio de uma pausa.
+      // reiniciamos para não cortar a história no meio de uma pausa. Antes de
+      // reiniciar, "fechamos" a sessão: movemos os finais dela para o texto
+      // commitado e zeramos finaisSessao — assim a nova sessão começa do zero
+      // e nada é contado duas vezes.
       if (!pararSolicitado && !erroFatal) {
+        if (finaisSessao) {
+          textoCommitado = (textoCommitado + ' ' + finaisSessao).replace(/\s+/g, ' ').trim();
+          finaisSessao = '';
+        }
         try { rec.start(); return; } catch (_e) { /* cai para encerrar */ }
       }
       if (encerrado) { return; }
@@ -128,7 +151,7 @@
       // comunicado via aoErro, e quem chamou decide o fallback (digitar). Não
       // finalizamos para não avançar a tela com transcrição vazia.
       if (erroFatal) { return; }
-      aoFinal(textoFinal.replace(/\s+/g, ' ').trim());
+      aoFinal(combinar());
     };
 
     // --- Gravação de áudio opcional (independente da transcrição) ----------

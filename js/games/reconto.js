@@ -60,6 +60,17 @@
     return lista[Math.floor(Math.random() * lista.length)];
   }
 
+  // Limpa repetições imediatas que a transcrição de voz às vezes produz, para
+  // o texto exibido (e guardado) ficar legível. Preserva acentos/maiúsculas —
+  // só colapsa blocos de palavras repetidos em sequência.
+  function limparTranscricao(texto) {
+    var t = String(texto === null || texto === undefined ? '' : texto);
+    if (global.RecontoAvaliacao && typeof global.RecontoAvaliacao.colapsarRepeticoes === 'function') {
+      return global.RecontoAvaliacao.colapsarRepeticoes(t);
+    }
+    return t.replace(/\s+/g, ' ').trim();
+  }
+
   // --- Funções puras (testáveis) ------------------------------------------
 
   function escolherExercicios(opcoes) {
@@ -156,6 +167,14 @@
       filaDicas: [],   // ids de elementos faltantes a perguntar
       registrado: false
     };
+
+    // Junta a transcrição acumulada com um novo trecho, já limpando repetições.
+    function acumularTranscricao(novoTrecho) {
+      sessao.transcricaoTotal = limparTranscricao(
+        (sessao.transcricaoTotal + ' ' + (novoTrecho || '')).trim()
+      );
+      return sessao.transcricaoTotal;
+    }
 
     // ---- helpers de saída/limpeza ----------------------------------------
     function encerrarVoz() {
@@ -257,7 +276,7 @@
         botaoConcluirTexto: 'Pronto, terminei!',
         permitirSair: true,
         aoConcluir: function (texto) {
-          sessao.transcricaoTotal = (sessao.transcricaoTotal + ' ' + (texto || '')).trim();
+          acumularTranscricao(texto);
           avaliarEPlanejarDicas();
         }
       });
@@ -298,7 +317,7 @@
           if (sessao.filaDicas.length) { renderizarDica(); } else { renderizarResultado(); }
         },
         aoConcluir: function (texto) {
-          sessao.transcricaoTotal = (sessao.transcricaoTotal + ' ' + (texto || '')).trim();
+          acumularTranscricao(texto);
           // reavalia tudo (barato) e atualiza
           sessao.resultado = Avaliacao.avaliarReconto(sessao.transcricaoTotal, exercicio);
           sessao.filaDicas.shift();
@@ -404,7 +423,7 @@
 
         sessao.controladorVoz = global.RecontoVoz.iniciar({
           gravarAudio: !!config.gravarAudio,
-          aoParcial: function (txt) { areaTranscricao.textContent = txt; },
+          aoParcial: function (txt) { areaTranscricao.textContent = limparTranscricao(txt); },
           aoAudio: function (url) { sessao.audioUrl = url; },
           aoErro: function (codigo, mensagem) {
             // erros não fatais (no-speech) não derrubam a gravação
