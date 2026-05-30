@@ -179,3 +179,70 @@ Backlog do PRD: **51 de 52 tarefas concluídas** (a única pendente é "Validaç
 4. Se for compartilhar, considerar `git init` e publicar como GitHub Pages (gratuito).
 5. (opcional) rodar `bash .ralph/ralph-deadcode.sh 15` para limpar os ~1-2 itens remanescentes de código morto.
 
+---
+
+# Evolução neuropsicológica (2026-05-30)
+
+Contexto: o jogo passou a ser usado pelo **Benjamin** (filho do Daniel, 7a 11m no laudo, **Altas Habilidades**). O laudo neuropsicológico apontou dois pontos a nivelar com o potencial superior dele, que viraram o roteiro desta evolução:
+
+1. **Reconto narrativo** (limítrofe, P7 comparado a 9 anos): praticar a **produção** de reconto — identificar personagens, problema, tentativa de solução, desfecho e ideia central. (A compreensão por reconhecimento/múltipla escolha ele já domina — P>70.)
+2. **Atenção a detalhes visuais** (recomendação oral da neuropsicóloga; ponto mais baixo do laudo, ponderado 11).
+
+Hospedagem passou a ser **GitHub Pages** (HTTPS): `https://danielfrasson.github.io/jogo-futebol/` (repo `danielfrasson/jogo-futebol`, branch `main`). O jogo é publicado a cada `push`.
+
+## Entrega A — Novo eixo "Contar Histórias" (Reconto)
+
+4º eixo, focado na recomendação 1. Fluxo (1 história por sessão): ler a história (com TTS "Ouvir" opcional) → **recontar falando no microfone** (Web Speech API transcreve em pt-BR) → avaliação automática dos **5 elementos** (medalhas) → **dicas dirigidas** para cada elemento faltante ("O que essa história ensina?") com nova chance de falar só aquela parte (scaffolding) → tela final com medalhas, moedas, ideia central de referência, **reescuta do áudio** e a **transcrição** (metacognição).
+
+Decisões alinhadas com o Daniel (via perguntas):
+- Reconto **oral** com transcrição (preferência dele); como o jogo está online em HTTPS, microfone + voz funcionam sem servidor local.
+- Banco de **histórias ricas** calibradas para ~9 anos; **avaliação flexível + dicas**; **1 história por sessão** (reconto é cognitivamente pesado).
+
+Arquitetura (vanilla, IIFE, mesmo padrão dos outros eixos):
+- `js/games/reconto-avaliacao.js` — lógica pura testável: normalização, detecção por termo com **coringa de radical** (`venc*` casa venceu/venceram) e limite de palavra (sem falso positivo "téo"⊄"teoria"), avaliação por elemento e do reconto, pontuação (base por dificuldade × elementos + bônus de reconto completo).
+- `js/games/reconto-voz.js` — wrapper de **SpeechRecognition** (pt-BR, contínuo, reinício em pausa) + **MediaRecorder** (reescuta). Fallback gracioso: navegador sem transcrição (ex.: Firefox) → digitar.
+- `js/games/reconto.js` — UI/orquestração do minigame.
+- `js/data/reconto-exercicios.js` — banco (começou com 50; depois 100 — ver Entrega B).
+- Integração: 4º cartão em `js/escolha-eixo.js`; eixo `reconto` na tela de Progresso (`js/progresso.js`); estilos em `css/style.css` (medalhas, gravador pulsante, transcrição ao vivo, fallback, `prefers-reduced-motion`); scripts em `index.html`.
+
+**Exceção consciente ao princípio "100% offline":** o reconto exige microfone + transcrição (secure context + internet). Os demais eixos seguem offline em `file://`. Documentado no README.
+
+## Correção — transcrição duplicada (Web Speech API)
+
+Sintoma relatado pelo Daniel após testar: a transcrição **repetia as mesmas palavras inúmeras vezes** (texto confuso) e a avaliação marcava como "faltou" o que o Benjamin disse (consequência do texto embolado).
+
+Causa raiz: o acúmulo dos resultados finais usava `event.resultIndex`, que em vários navegadores (**Chrome Android** em especial) não avança de forma confiável, e o reinício automático após pausa reemitia o mesmo trecho.
+
+Correção em duas camadas:
+- **Raiz** (`reconto-voz.js`): reconstruir os finais da sessão a cada `onresult` (iterando de 0, sem somar) e "commitar" uma vez por sessão antes de reiniciar. Verificado por simulação dos eventos reproduzindo o padrão do mobile.
+- **Rede de segurança** (`reconto-avaliacao.js`): função pura `colapsarRepeticoes` (colapsa blocos de 1..6 palavras repetidos em sequência, tolerante a acento/pontuação/caixa) aplicada antes de avaliar e no texto exibido (`reconto.js`).
+
+## Entrega B — Viés da leitura + expansão do reconto (com agentes paralelos)
+
+A pedido do Daniel, e para agilizar sem sobrecarregar o contexto, usei **5 agentes especializados em paralelo** (1 para a leitura + 4 para o reconto).
+
+**B1 — Viés das alternativas na leitura.** O Benjamin descobriu que acertava a interpretação "chutando pela alternativa mais longa". Medição confirmou viés severo: a correta era a **mais longa em 98%** das 1125 perguntas e estava no **índice 1 em 85%** (nunca no índice 3).
+- Correção no gerador `tools/gerar-bancos.js` (distratores reescritos como frases completas; `equilibrarComprimento` alonga o maior distrator em ~70% das perguntas via PRNG seeded, sem inverter o viés; posição da correta randomizada) + `embaralharPergunta` em runtime no `js/games/leitura.js` (embaralha as alternativas remapeando `correta`).
+- Resultado (verificado de forma independente): correta-mais-longa **98% → 22,9%**; comprimento médio correta **64→72** vs distrator **32→71** (diferença 0,7 char); posição **uniforme** `{0:283,1:276,2:262,3:304}`. Banco regenerado com IDs estáveis; escrita/matemática **byte-idênticos**.
+- Teste de regressão: `tests/leitura-vies.test.js` (falha se o viés voltar).
+
+**B2 — Reconto: 50 → 100 histórias.** 30 fáceis + 35 médias + 35 difíceis = **70 mais difíceis** que o nível anterior (~10-13 anos, com reviravoltas e dilemas morais — para desafiar de verdade as Altas Habilidades).
+- Pipeline reproduzível para gerar em paralelo sem conflito: cada agente escreve um fragmento em `tools/reconto-fragmentos/NN.js`; `tools/checar-fragmento.js` valida cada fragmento (schema + auto-detecção ≥4/5); `tools/montar-reconto.js` valida o conjunto (ids únicos, distribuição, NUL) e **gera** `js/data/reconto-exercicios.js`.
+- Auto-detecção média **4,95/5**. Teste de integridade atualizado (100, ≥70 médio+difícil).
+
+## Estado atual do projeto (2026-05-30)
+
+- **4 eixos**: Leitura, Escrita, Matemática, **Reconto (Contar Histórias)**.
+- **Reconto**: 100 histórias (30/35/35). Microfone/voz exigem Chrome/Edge (ou Safari); Firefox cai para digitar.
+- **Leitura**: sem viés de comprimento nem de posição.
+- **Testes**: `node tests/run.js` → **174 verdes**.
+- **Publicado** em GitHub Pages, cache `?v=8` (commit `a4fa373`).
+- Histórico de commits desta evolução: `5bbaf57` (eixo reconto) → `5e1c584` (fix duplicação) → `a4fa373` (viés leitura + 100 histórias).
+
+## Próximos passos
+
+1. **Validação com o Benjamin** (Daniel): testar o reconto (transcrição limpa? avaliação justa? histórias difíceis no ponto certo de desafio?) e a leitura (ele acha algum novo "atalho"?). Dar refresh forçado (Ctrl+F5 / puxar no celular) na primeira vez.
+2. **Eixo "Olho de Águia" (atenção a detalhes visuais)** — recomendação 2, ainda **não iniciado**. Decidido com o Daniel: várias mecânicas misturadas ("o que mudou?", "encontre o intruso", "3 diferenças", "memória visual"), usando emojis/SVG (sem precisar de artista). Fazer **depois** da validação do reconto.
+3. Conforme o retorno do uso real: afinar a tolerância da avaliação do reconto e/ou a calibração das histórias difíceis.
+4. (manutenção) para ampliar o reconto no futuro, basta adicionar/editar fragmentos em `tools/reconto-fragmentos/` e rodar `node tools/montar-reconto.js`.
+
