@@ -34,6 +34,7 @@ A cada acerto a criança ganha **moedas**, que podem ser gastas na **loja cosmé
 
 - **Dificuldade adaptativa**: se a criança erra muitas vezes seguidas, o próximo exercício vem mais fácil; se acerta muitas seguidas, sobe de nível.
 - **Não-repetição**: o jogo evita repetir os mesmos exercícios em sessões seguidas, mantendo a variedade.
+- **Alternativas sem "pistas grátis"** (leitura): a resposta certa não é mais identificável pelo tamanho nem pela posição — os distratores têm comprimento parecido com o da correta e a ordem das alternativas é embaralhada a cada pergunta. Isso força a criança a interpretar o texto de verdade, em vez de "chutar pela mais longa".
 - **Feedback positivo**: comemoração com confete e animação de gol ao acertar; mensagens encorajadoras (sem som ou cor agressiva) ao errar — o erro é tratado como parte natural do aprendizado.
 - **Sem pressão de tempo**: a criança responde no ritmo dela.
 - **Acessibilidade**: navegação por teclado, foco visível, contraste alto, suporte a leitores de tela e respeito a `prefers-reduced-motion` (animações reduzidas para quem tem sensibilidade a movimento).
@@ -110,7 +111,8 @@ jogo/
 │   │                       #   reconto.js (UI), reconto-avaliacao.js (lógica
 │   │                       #   pura dos 5 elementos), reconto-voz.js (Web
 │   │                       #   Speech API + MediaRecorder)
-│   └── data/               # bancos de exercícios (+ reconto-exercicios.js: 50 histórias)
+│   └── data/               # bancos de exercícios (+ reconto-exercicios.js: 100 histórias,
+│                           #   GERADO por tools/montar-reconto.js a partir de tools/reconto-fragmentos/)
 └── tests/
     ├── run.js              # runner mínimo em Node puro, sem dependências
     └── *.test.js           # testes unitários

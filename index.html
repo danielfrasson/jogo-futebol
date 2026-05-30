@@ -12,8 +12,8 @@
   <meta http-equiv="Expires" content="0">
   <title>Jogo de Futebol — Leitura, Escrita e Matemática</title>
 
-  <link rel="stylesheet" href="css/style.css?v=5">
-  <link rel="stylesheet" href="css/theme-futebol.css?v=5">
+  <link rel="stylesheet" href="css/style.css?v=8">
+  <link rel="stylesheet" href="css/theme-futebol.css?v=8">
 </head>
 <body>
   <a class="skip-link" href="#app">Pular para o jogo</a>
@@ -27,70 +27,70 @@
   </main>
 
   <!-- Bancos de dados de exercícios -->
-  <script src="js/data/leitura-exercicios.js?v=5" defer></script>
-  <script src="js/data/escrita-exercicios.js?v=5" defer></script>
-  <script src="js/data/matematica-exercicios.js?v=5" defer></script>
-  <script src="js/data/reconto-exercicios.js?v=5" defer></script>
+  <script src="js/data/leitura-exercicios.js?v=8" defer></script>
+  <script src="js/data/escrita-exercicios.js?v=8" defer></script>
+  <script src="js/data/matematica-exercicios.js?v=8" defer></script>
+  <script src="js/data/reconto-exercicios.js?v=8" defer></script>
 
   <!-- Núcleo: persistência, áudio e UI -->
-  <script src="js/storage.js?v=5" defer></script>
-  <script src="js/audio.js?v=5" defer></script>
-  <script src="js/ui.js?v=5" defer></script>
+  <script src="js/storage.js?v=8" defer></script>
+  <script src="js/audio.js?v=8" defer></script>
+  <script src="js/ui.js?v=8" defer></script>
 
   <!-- Animações de comemoração (acerto): sem dependências, fica antes dos jogos -->
-  <script src="js/comemoracao.js?v=5" defer></script>
+  <script src="js/comemoracao.js?v=8" defer></script>
 
   <!-- Sistema central de moedas e pontuação (precisa de Storage e Ui) -->
-  <script src="js/moedas.js?v=5" defer></script>
+  <script src="js/moedas.js?v=8" defer></script>
 
   <!-- Utilitário Fisher-Yates compartilhado por Historico e pelos minigames -->
-  <script src="js/utils/embaralhar.js?v=5" defer></script>
+  <script src="js/utils/embaralhar.js?v=8" defer></script>
 
   <!-- Histórico de exercícios já vistos (não-repetição cross-sessão) -->
-  <script src="js/historico.js?v=5" defer></script>
+  <script src="js/historico.js?v=8" defer></script>
 
   <!-- Dificuldade adaptativa por eixo (precisa de Storage) -->
-  <script src="js/dificuldade.js?v=5" defer></script>
+  <script src="js/dificuldade.js?v=8" defer></script>
 
   <!-- Perfil do jogador (precisa de Storage e Ui já carregados) -->
-  <script src="js/jogador.js?v=5" defer></script>
+  <script src="js/jogador.js?v=8" defer></script>
 
   <!-- Loja cosmética (precisa de Storage, Ui, Moedas e Jogador) -->
-  <script src="js/loja.js?v=5" defer></script>
+  <script src="js/loja.js?v=8" defer></script>
 
   <!-- Tela de progresso/estatísticas (precisa de Moedas, Loja e Jogador) -->
-  <script src="js/progresso.js?v=5" defer></script>
+  <script src="js/progresso.js?v=8" defer></script>
 
   <!-- Helper compartilhado pelos minigames (tela de fim-de-sessão) -->
-  <script src="js/games/sessao-resumo.js?v=5" defer></script>
+  <script src="js/games/sessao-resumo.js?v=8" defer></script>
 
   <!-- Painel de feedback compartilhado pelos minigames de input (escrita, matemática) -->
-  <script src="js/games/feedback-exercicio.js?v=5" defer></script>
+  <script src="js/games/feedback-exercicio.js?v=8" defer></script>
 
   <!-- Cabeçalho de sessão compartilhado pelos 3 minigames -->
-  <script src="js/games/cabecalho-sessao.js?v=5" defer></script>
+  <script src="js/games/cabecalho-sessao.js?v=8" defer></script>
 
   <!-- Bootstrap de sessão compartilhado pelos 3 minigames (resolve dificuldade,
        escolhe exercícios, registra no histórico, modal "sem exercícios") -->
-  <script src="js/games/sessao-bootstrap.js?v=5" defer></script>
+  <script src="js/games/sessao-bootstrap.js?v=8" defer></script>
 
   <!-- Substituição dos exercícios restantes ao mudar de nível adaptativo -->
-  <script src="js/games/dificuldade-adaptativa.js?v=5" defer></script>
+  <script src="js/games/dificuldade-adaptativa.js?v=8" defer></script>
 
   <!-- Reconto: avaliação (lógica pura) e captura de voz, antes do minigame -->
-  <script src="js/games/reconto-avaliacao.js?v=5" defer></script>
-  <script src="js/games/reconto-voz.js?v=5" defer></script>
+  <script src="js/games/reconto-avaliacao.js?v=8" defer></script>
+  <script src="js/games/reconto-voz.js?v=8" defer></script>
 
   <!-- Minigames -->
-  <script src="js/games/leitura.js?v=5" defer></script>
-  <script src="js/games/escrita.js?v=5" defer></script>
-  <script src="js/games/matematica.js?v=5" defer></script>
-  <script src="js/games/reconto.js?v=5" defer></script>
+  <script src="js/games/leitura.js?v=8" defer></script>
+  <script src="js/games/escrita.js?v=8" defer></script>
+  <script src="js/games/matematica.js?v=8" defer></script>
+  <script src="js/games/reconto.js?v=8" defer></script>
 
   <!-- Tela de escolha de eixo (precisa dos minigames carregados) -->
-  <script src="js/escolha-eixo.js?v=5" defer></script>
+  <script src="js/escolha-eixo.js?v=8" defer></script>
 
   <!-- Orquestrador principal -->
-  <script src="js/main.js?v=5" defer></script>
+  <script src="js/main.js?v=8" defer></script>
 </body>
 </html>

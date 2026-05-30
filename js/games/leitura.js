@@ -11,6 +11,7 @@
  *   JogoLeitura.escolherExercicios(opcoes?)   → array     (puro, p/ testes)
  *   JogoLeitura.calcularMoedas(diff, acertou) → number    (puro, p/ testes)
  *   JogoLeitura.embaralhar(lista, rng?)       → array     (puro, p/ testes)
+ *   JogoLeitura.embaralharPergunta(perg, rng?)→ objeto    (puro, p/ testes)
  *   JogoLeitura.MOEDAS_POR_DIFICULDADE        → mapa
  *   JogoLeitura.TAMANHO_SESSAO_PADRAO         → number
  *
@@ -67,6 +68,35 @@
       return global.Embaralhar.embaralhar(lista, rng);
     }
     return (lista || []).slice();
+  }
+
+  // Embaralha as alternativas de uma pergunta em runtime e remapeia `correta`
+  // para a nova posição. Defesa anti-trapaça de POSIÇÃO: mesmo que o banco
+  // viesse com a correta sempre no mesmo índice, aqui ela é redistribuída a
+  // cada apresentação. O banco já sai balanceado (gerador embaralha também),
+  // mas isto torna a proteção robusta e barata. Devolve um NOVO objeto; não
+  // muta a pergunta original. Preserva os demais campos (ex.: enunciado).
+  function embaralharPergunta(pergunta, rng) {
+    if (!pergunta || !Array.isArray(pergunta.alternativas)) { return pergunta; }
+    var n = pergunta.alternativas.length;
+    var indices = [];
+    for (var i = 0; i < n; i++) { indices.push(i); }
+    var ordem = embaralhar(indices, rng);
+    var novasAlts = [];
+    var novaCorreta = pergunta.correta;
+    for (var k = 0; k < ordem.length; k++) {
+      novasAlts.push(pergunta.alternativas[ordem[k]]);
+      if (ordem[k] === pergunta.correta) { novaCorreta = k; }
+    }
+    var copia = {};
+    for (var prop in pergunta) {
+      if (Object.prototype.hasOwnProperty.call(pergunta, prop)) {
+        copia[prop] = pergunta[prop];
+      }
+    }
+    copia.alternativas = novasAlts;
+    copia.correta = novaCorreta;
+    return copia;
   }
 
   function escolherExercicios(opcoes) {
@@ -145,10 +175,23 @@
       respostas: []
     };
 
+    // Cache de perguntas já embaralhadas nesta sessão. A chave amarra exercício
+    // + índice da pergunta, garantindo que a MESMA pergunta mantenha a ordem de
+    // alternativas enquanto está na tela (render + feedback usam o mesmo objeto).
+    // Reinicia a cada `abrirJogo` (novo fechamento), então jogar de novo reembaralha.
+    var cacheEmbaralhado = Object.create(null);
+
     function exercicioAtual() { return exercicios[sessao.indiceExercicio]; }
     function perguntaAtual() {
       var ex = exercicioAtual();
-      return ex ? ex.perguntas[sessao.indicePergunta] : null;
+      if (!ex) { return null; }
+      var bruta = ex.perguntas[sessao.indicePergunta];
+      if (!bruta) { return null; }
+      var chave = (ex.id || sessao.indiceExercicio) + ':' + sessao.indicePergunta;
+      if (!cacheEmbaralhado[chave]) {
+        cacheEmbaralhado[chave] = embaralharPergunta(bruta, opcoes.rng);
+      }
+      return cacheEmbaralhado[chave];
     }
     function totalPerguntas() {
       var t = 0;
@@ -474,6 +517,7 @@
     escolherExercicios: escolherExercicios,
     calcularMoedas: calcularMoedas,
     embaralhar: embaralhar,
+    embaralharPergunta: embaralharPergunta,
     MOEDAS_POR_DIFICULDADE: MOEDAS_POR_DIFICULDADE,
     TAMANHO_SESSAO_PADRAO: TAMANHO_SESSAO_PADRAO,
     EIXO: EIXO

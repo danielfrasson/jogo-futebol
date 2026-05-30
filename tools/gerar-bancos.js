@@ -909,10 +909,10 @@ LEI_ARQ.push({
       perguntas: [{
         enunciado: 'Pelo modo como o texto descreve a postura da comissão técnica, o que se pode inferir?',
         alternativas: [
-          'Estavam cansados e queriam sair de campo',
-          'O time jogava tão bem que mal precisavam intervir',
-          'Estavam com raiva dos jogadores',
-          'Não sabiam o que fazer naquele momento'
+          'Estavam exaustos e contavam os minutos para o jogo acabar logo',
+          'O time jogava tão bem que eles mal precisavam dar instruções',
+          'Estavam furiosos com o desempenho fraco dos próprios jogadores',
+          'Estavam perdidos, sem saber qual orientação dar naquele momento'
         ],
         correta: 1
       }]
@@ -936,10 +936,10 @@ LEI_ARQ.push({
       perguntas: [{
         enunciado: 'A fala revela como a comissão encara as dificuldades. Como podemos descrevê-la?',
         alternativas: [
-          'Evita situações desconfortáveis',
-          'Vê dificuldade como oportunidade de aprender',
-          'Só treina em dias de sol',
-          'Não confia nos jogadores'
+          'Foge de tudo o que seja desconfortável ou fora do planejado',
+          'Vê a dificuldade como uma boa oportunidade de aprender algo novo',
+          'Só aceita treinar quando o tempo está firme e ensolarado',
+          'Desconfia da capacidade dos jogadores de superar obstáculos'
         ],
         correta: 1
       }]
@@ -960,10 +960,10 @@ LEI_ARQ.push({
       perguntas: [{
         enunciado: `O texto diz que a torcida "adorava" o costume do ${nome}. Por que esse costume é especial?`,
         alternativas: [
-          'Ele era o único permitido no estádio',
-          'Ele celebrava cada gol junto com o time, como se fosse torcedor',
-          'Ele era mais bonito que outros bichos',
-          'Ele tinha um nome diferente'
+          'Ele era o único animal com permissão para entrar no estádio',
+          'Ele celebrava cada gol junto com o time, como se fosse um torcedor',
+          'Ele era bem mais bonito do que os outros bichos do bairro',
+          'Ele tinha um nome diferente de todas as outras mascotes'
         ],
         correta: 1
       }]
@@ -983,10 +983,10 @@ LEI_ARQ.push({
       perguntas: [{
         enunciado: `O detalhe de a ${nf} "respirar fundo" antes de bater diz o quê sobre o estado dela?`,
         alternativas: [
-          'Estava entediada com o jogo',
-          'Sentia tensão, mas tentava se controlar',
-          'Estava com falta de ar por correr muito',
-          'Estava distraída com a torcida'
+          'Estava entediada e sem vontade de continuar no jogo',
+          'Sentia muita tensão, mas tentava se controlar para bater bem',
+          'Estava sem fôlego por ter corrido demais durante a partida',
+          'Estava distraída, prestando atenção na torcida nas arquibancadas'
         ],
         correta: 1
       }]
@@ -1007,10 +1007,10 @@ LEI_ARQ.push({
       perguntas: [{
         enunciado: 'O costume da comissão de revezar capitães mostra que ela valoriza o quê?',
         alternativas: [
-          'Que todos no time exercitem a liderança',
-          'Que apenas o melhor jogador lidere',
-          'Que o capitão deve ser o mais velho',
-          'Que liderar não é importante'
+          'Que todos no time tenham a chance de exercitar a liderança',
+          'Que apenas o jogador mais habilidoso tenha o direito de liderar',
+          'Que a faixa de capitão deve ficar sempre com o mais velho',
+          'Que saber liderar não faz diferença nenhuma para o time'
         ],
         correta: 0
       }]
@@ -1029,10 +1029,10 @@ LEI_ARQ.push({
       perguntas: [{
         enunciado: 'O que normalmente acontece com esse som de eco em jogos com público?',
         alternativas: [
-          'É amplificado pelos torcedores',
-          'É abafado pelo barulho da arquibancada',
-          'É gravado pelos microfones do estádio',
-          'É igual com ou sem público'
+          'É amplificado e repetido pelo grito constante dos torcedores',
+          'É abafado pelo barulho da arquibancada cheia de gente',
+          'É captado e gravado pelos microfones espalhados no estádio',
+          'É exatamente o mesmo, com ou sem público nas arquibancadas'
         ],
         correta: 1
       }]
@@ -1051,10 +1051,10 @@ LEI_ARQ.push({
       perguntas: [{
         enunciado: 'O texto chama o cartão de "primeira advertência". O que essa palavra sugere ao zagueiro?',
         alternativas: [
-          'Pode haver outras advertências, e a próxima pode tirá-lo do jogo',
-          'Que ele perdeu permanentemente o direito de jogar',
-          'Que ele vai ser premiado',
-          'Que o jogo terminou'
+          'Que pode haver outras advertências, e a próxima talvez o tire do jogo',
+          'Que ele perdeu para sempre o direito de jogar futebol naquele clube',
+          'Que ele será premiado pelo juiz por causa da jogada que fez',
+          'Que a partida acabou naquele exato momento da advertência'
         ],
         correta: 0
       }]
@@ -1074,10 +1074,10 @@ LEI_ARQ.push({
       perguntas: [{
         enunciado: 'Pelo gesto dos colegas, o que se pode dizer sobre o time?',
         alternativas: [
-          'Vão sempre vencer juntos',
-          'Têm uma amizade que vai além do esporte',
-          'Disputam quem é o mais importante',
-          'Preferem o aniversário ao jogo'
+          'Que eles vão vencer todas as partidas enquanto jogarem juntos',
+          'Que existe entre eles uma amizade que vai muito além do esporte',
+          'Que vivem disputando quem é o jogador mais importante do grupo',
+          'Que dão mais valor à festa de aniversário do que ao próprio jogo'
         ],
         correta: 1
       }]
@@ -1101,20 +1101,20 @@ LEI_ARQ.push({
         {
           enunciado: 'O que as decisões da técnica no intervalo revelam sobre ela?',
           alternativas: [
-            'Que esperava o adversário cansar sozinho',
-            'Que leu o jogo, identificou o problema e teve coragem de mudar',
-            'Que queria castigar as jogadoras por jogarem mal',
-            'Que tinha pouca experiência'
+            'Que apenas esperava o time adversário cansar sozinho no segundo tempo',
+            'Que leu o jogo, identificou o problema e teve coragem para mudar',
+            'Que queria castigar as próprias jogadoras por terem jogado mal',
+            'Que tinha pouca experiência e improvisava sem saber o que fazer'
           ],
           correta: 1
         },
         {
           enunciado: 'A descrição do técnico adversário "sem entender" sugere o quê sobre a virada?',
           alternativas: [
-            'Foi resultado de muita sorte',
-            'Foi tão rápida e bem feita que pegou ele de surpresa',
-            'Foi injusta',
-            'Aconteceu por erro do juiz'
+            'Que ela foi apenas resultado de muita sorte do outro time',
+            'Que foi tão rápida e bem executada que o pegou de surpresa',
+            'Que foi injusta e não deveria ter sido permitida pelo juiz',
+            'Que aconteceu por causa de um erro grave da arbitragem'
           ],
           correta: 1
         }
@@ -1147,20 +1147,20 @@ LEI_ARQ.push({
         {
           enunciado: 'A frase "era conhecido por" indica o quê sobre o costume do goleiro?',
           alternativas: [
-            'Era a primeira vez que ele se distraía',
-            'Era um hábito antigo, que toda a equipe já sabia',
-            'Era ordem do treinador',
-            'Era parte da estratégia de defesa'
+            'Que era a primeira vez na vida que ele se distraía em campo',
+            'Que era um hábito antigo, que toda a equipe já conhecia bem',
+            'Que era uma ordem dada diretamente pelo treinador do time',
+            'Que fazia parte de uma estratégia secreta de defesa do gol'
           ],
           correta: 1
         },
         {
           enunciado: 'O gesto do técnico cobrir o rosto e sentar expressa que sentimento?',
           alternativas: [
-            'Cansaço físico de gritar',
-            'Frustração e desânimo de ver o erro se repetir',
-            'Alegria contida pelo jogo bonito',
-            'Confusão com as regras do escanteio'
+            'Cansaço físico por ter gritado muito durante a partida',
+            'Frustração e desânimo por ver o mesmo erro se repetir de novo',
+            'Alegria contida pela beleza da jogada que o time fez',
+            'Confusão por não entender direito a regra do escanteio'
           ],
           correta: 1
         }
@@ -1182,20 +1182,20 @@ LEI_ARQ.push({
         {
           enunciado: 'O fato de a torcida não ver aquela camisa "há meses" deixa transparecer o quê sobre o time?',
           alternativas: [
-            'Mudou de cor recentemente',
-            'Costuma usar quase sempre o uniforme principal',
-            'A camisa estava perdida no vestiário',
-            'Não jogava há meses'
+            'Que o time mudou completamente as cores do uniforme há pouco tempo',
+            'Que o time costuma usar quase sempre o seu uniforme principal',
+            'Que a camisa reserva andava perdida em algum canto do vestiário',
+            'Que o time estava parado e não entrava em campo havia meses'
           ],
           correta: 1
         },
         {
           enunciado: 'Por que o autor descreve o sorteio com tantos detalhes?',
           alternativas: [
-            'Mostrar como decisões aparentemente pequenas têm tradição e cerimônia',
-            'Criticar a regra do sorteio',
-            'Confundir o leitor',
-            'Preencher o texto'
+            'Para mostrar como decisões aparentemente pequenas têm tradição e cerimônia',
+            'Para criticar a regra do sorteio e sugerir que ela fosse mudada',
+            'Para confundir quem lê e esconder o resultado real da partida',
+            'Para preencher o texto e deixar a narração um pouco mais longa'
           ],
           correta: 0
         }
@@ -1219,20 +1219,20 @@ LEI_ARQ.push({
         {
           enunciado: `O detalhe de o senhor ${sobrenome} "conhecer cada torcedor pelo nome" mostra o quê?`,
           alternativas: [
-            'Que tem boa memória apenas para nomes',
-            'Que existe um vínculo afetivo entre ele e o público',
-            'Que é mais velho que os torcedores',
-            'Que é parente de todos eles'
+            'Que ele tem boa memória apenas para guardar nomes de pessoas',
+            'Que existe um vínculo afetivo entre ele e o público do estádio',
+            'Que ele é bem mais velho do que a maioria dos torcedores',
+            'Que ele é parente próximo de todas aquelas famílias de torcedores'
           ],
           correta: 1
         },
         {
           enunciado: 'A frase "Hoje você vai ver gol, menina!" tem que tom?',
           alternativas: [
-            'Cobrança séria',
-            'Provocação raivosa',
-            'Brincadeira carinhosa, quase de família',
-            'Aviso formal e distante'
+            'De cobrança séria, exigindo um bom resultado da menina',
+            'De provocação raivosa, querendo deixar a menina irritada',
+            'De brincadeira carinhosa, quase como se fossem da mesma família',
+            'De aviso formal e distante, sem nenhuma intimidade com ela'
           ],
           correta: 2
         }
@@ -1253,20 +1253,20 @@ LEI_ARQ.push({
         {
           enunciado: 'O modo como o juiz reage à pressão mostra que ele é...',
           alternativas: [
-            'Tímido e inseguro',
+            'Tímido e inseguro, sem coragem de bancar as próprias decisões',
             'Equilibrado: respeita o bandeirinha e mantém a regra mesmo sob pressão',
-            'Bravo e impaciente',
-            'Indeciso e influenciável'
+            'Bravo e impaciente, perdendo a calma com a torcida e os jogadores',
+            'Indeciso e influenciável, mudando de opinião conforme a reclamação'
           ],
           correta: 1
         },
         {
           enunciado: 'O que aconteceria se o juiz cedesse à reclamação?',
           alternativas: [
-            'O bandeirinha seria substituído',
+            'O bandeirinha acabaria sendo substituído ainda no meio do jogo',
             'A regra de impedimento perderia força e a autoridade do juiz seria minada',
-            'A torcida sairia do estádio',
-            'O jogo terminaria de imediato'
+            'A torcida ficaria satisfeita e iria embora do estádio mais cedo',
+            'A partida terminaria de imediato, sem que o segundo tempo rolasse'
           ],
           correta: 1
         }
@@ -1288,20 +1288,20 @@ LEI_ARQ.push({
         {
           enunciado: `O hábito ${sexo === 'm' ? 'do' : 'da'} ${nome} de treinar antes e depois revela que tipo de atitude?`,
           alternativas: [
-            'Insegurança que tira o sono',
-            'Preparo silencioso, esperando pela chance',
-            'Vontade de impressionar a comissão',
-            'Excesso de competitividade'
+            'Uma insegurança tão grande que chegava a tirar o sono dele',
+            'Um preparo silencioso, esperando com paciência pela sua chance',
+            'Uma vontade exagerada de impressionar a comissão técnica',
+            'Um excesso de competitividade que atrapalhava os companheiros'
           ],
           correta: 1
         },
         {
           enunciado: 'Pelo desempenho, qual é a mensagem implícita?',
           alternativas: [
-            'Reservas são sempre piores que titulares',
-            'Quando a oportunidade chega, quem se preparou bem aproveita',
-            'É melhor ser titular',
-            'Treinar sozinho não adianta'
+            'Que os jogadores reservas são sempre piores do que os titulares',
+            'Que, quando a oportunidade chega, quem se preparou bem aproveita',
+            'Que é sempre melhor ser titular do que ficar no banco de reservas',
+            'Que treinar sozinho, longe do grupo, não adianta de nada no fim'
           ],
           correta: 1
         }
@@ -1320,20 +1320,20 @@ LEI_ARQ.push({
       {
         enunciado: 'A reação dos jogadores rindo, em vez de reclamar, sugere o quê?',
         alternativas: [
-          'Estavam zoando o juiz com má intenção',
-          'O ambiente era leve e descontraído, sem tensão',
-          'Queriam parar o jogo de qualquer jeito',
-          'Desconfiavam que o apito estava quebrado de propósito'
+          'Que estavam zoando o juiz de propósito, com má intenção',
+          'Que o ambiente era leve e descontraído, sem nenhuma tensão',
+          'Que queriam parar o jogo de qualquer jeito para descansar',
+          'Que desconfiavam que o apito tinha sido quebrado de propósito'
         ],
         correta: 1
       },
       {
         enunciado: 'Que ideia o texto comunica sobre imprevistos?',
         alternativas: [
-          'Sempre causam discussão',
-          'Podem ser resolvidos com paciência e bom humor',
-          'Significam que o jogo não pode continuar',
-          'São culpa exclusiva do juiz'
+          'Que eles sempre acabam causando discussão entre as pessoas',
+          'Que podem ser resolvidos com um pouco de paciência e bom humor',
+          'Que significam, na maioria das vezes, que o jogo não pode continuar',
+          'Que são sempre culpa exclusiva do juiz e de mais ninguém'
         ],
         correta: 1
       }
@@ -1354,20 +1354,20 @@ LEI_ARQ.push({
         {
           enunciado: 'O fato de torcedores desconhecidos explicarem o gol diz o quê sobre a arquibancada?',
           alternativas: [
-            'Lugar competitivo onde cada um cuida de si',
-            'Espaço comunitário, onde estranhos compartilham a mesma alegria',
-            'A torcida só olha pro próprio celular',
-            'Apenas adultos prestam atenção no jogo'
+            'Que é um lugar competitivo onde cada um cuida apenas de si mesmo',
+            'Que é um espaço comunitário, onde estranhos dividem a mesma alegria',
+            'Que ali a torcida só fica olhando para o próprio celular o tempo todo',
+            'Que apenas os adultos prestam atenção de verdade no que acontece em campo'
           ],
           correta: 1
         },
         {
           enunciado: `Pelo final do texto, qual provavelmente foi o sentimento da ${nf}?`,
           alternativas: [
-            'Alívio porque o time dela estava ganhando',
-            'Raiva profunda da fila do banheiro',
-            'Vontade de ir embora',
-            'Indiferença'
+            'Alívio, porque mesmo perdendo o lance o time dela estava ganhando',
+            'Raiva profunda da fila demorada do banheiro do estádio',
+            'Vontade de ir embora e abandonar a partida pela metade',
+            'Indiferença total, como se o resultado não importasse para ela'
           ],
           correta: 0
         }
@@ -1396,30 +1396,30 @@ LEI_ARQ.push({
         {
           enunciado: `No contexto do texto, qual o significado prático da frase de ${nm}?`,
           alternativas: [
-            'Que é uma regra arbitrária do clube',
+            'Que é uma regra criada sem motivo pela diretoria do clube',
             'Que é um princípio que a nova técnica precisou viver para entender',
-            'Que é uma piada interna',
-            'Que era uma regra esquecida do regulamento'
+            'Que é apenas uma piada interna entre os antigos treinadores',
+            'Que era uma regra esquecida em algum canto do regulamento'
           ],
           correta: 1
         },
         {
           enunciado: `Por que o autor descreve o caderno como tendo "apenas uma frase, repetida em todas as páginas"?`,
           alternativas: [
-            'Para mostrar que ${nm} era preguiçoso',
+            'Para mostrar que o antigo treinador era preguiçoso e não escrevia muito',
             'Para dar peso à mensagem — quando algo é repetido tantas vezes, vira princípio',
-            'Porque ele não sabia escrever outras coisas',
-            'Para confundir a nova técnica'
+            'Porque ele não sabia escrever nenhuma outra coisa além daquela frase',
+            'Para confundir de propósito a nova técnica que recebeu o caderno'
           ],
           correta: 1
         },
         {
           enunciado: 'O fato de a nova técnica levar meses para entender a frase sugere o quê?',
           alternativas: [
-            'Que ela não era inteligente',
+            'Que ela não era inteligente o bastante para captar a ideia logo',
             'Que sabedoria simples às vezes só faz sentido depois de viver na prática o que ela diz',
-            'Que o caderno estava em código',
-            'Que a frase tinha vários sentidos contraditórios'
+            'Que o caderno estava escrito em algum tipo de código secreto',
+            'Que a frase tinha vários sentidos diferentes e contraditórios entre si'
           ],
           correta: 1
         }
@@ -1443,10 +1443,10 @@ LEI_ARQ.push({
         {
           enunciado: `Por que a ${nf} volta ao beco mesmo morando perto de um estádio profissional?`,
           alternativas: [
-            'Porque é mais barato treinar lá',
-            'Para reconectar com a origem dela e lembrar o que a motivou',
-            'Para encontrar a antiga padaria',
-            'Porque os objetos servem como gols de treino'
+            'Porque sai bem mais barato treinar no beco do que em outro lugar',
+            'Para reconectar com a própria origem e lembrar o que a motivou no começo',
+            'Para tentar reencontrar a antiga padaria que ficava perto do beco',
+            'Porque os objetos do beco ainda servem como gols durante os treinos'
           ],
           correta: 1
         },
@@ -1454,19 +1454,19 @@ LEI_ARQ.push({
           enunciado: 'A imagem de objetos antigos preservados enquanto a padaria fechou funciona como qual ideia?',
           alternativas: [
             'O tempo apaga lugares, mas alguns símbolos permanecem como guardiões da memória',
-            'Que ninguém limpa o beco há anos',
-            'Que a padaria vai reabrir um dia',
-            'Que objetos duram mais que padarias'
+            'A ideia de que ninguém limpa nem cuida daquele beco há muitos anos',
+            'A esperança de que a antiga padaria do bairro vá reabrir um dia',
+            'A noção de que objetos simples duram bem mais do que padarias'
           ],
           correta: 0
         },
         {
           enunciado: 'Qual é o tema central do texto?',
           alternativas: [
-            'A importância de ser rico para jogar futebol',
-            'A relação entre origem humilde e o que dá sentido à carreira',
-            'O perigo de jogar em becos',
-            'Como crianças se divertem'
+            'A importância de ter dinheiro e ser rico para poder jogar futebol',
+            'A relação entre a origem humilde e aquilo que dá sentido à carreira',
+            'O perigo de crianças ficarem jogando bola em becos apertados',
+            'As várias maneiras que as crianças encontram para se divertir'
           ],
           correta: 1
         }
@@ -1488,30 +1488,30 @@ LEI_ARQ.push({
         {
           enunciado: 'Por que o autor escolhe a frase "em qualquer outro segundo, o jogo já teria acabado"?',
           alternativas: [
-            'Para criticar o tamanho do tempo regulamentar',
+            'Para criticar o tamanho do tempo regulamentar de uma partida de futebol',
             'Para deixar claro que o gol saiu no instante mais improvável e dramático possível',
-            'Porque o cronômetro estava com defeito',
-            'Porque o juiz queria encerrar antes da hora'
+            'Porque o cronômetro do telão estava com algum tipo de defeito naquele dia',
+            'Porque o juiz da partida queria encerrar o jogo antes mesmo da hora certa'
           ],
           correta: 1
         },
         {
           enunciado: `A descrição da ${nf2} "aparecendo do nada" indica o quê?`,
           alternativas: [
-            'Estava escondida no túnel do vestiário',
-            'Soube se posicionar exatamente onde ninguém esperava',
-            'Foi convocada de última hora',
-            'Estava no time adversário'
+            'Que ela estava escondida dentro do túnel que leva ao vestiário',
+            'Que ela soube se posicionar exatamente onde ninguém esperava que estivesse',
+            'Que ela tinha sido convocada de última hora para entrar na partida',
+            'Que ela na verdade fazia parte do time adversário, e não do dela'
           ],
           correta: 1
         },
         {
           enunciado: 'Por que o autor enumera tantos detalhes (3 cabeças, peito, retorno) antes do gol?',
           alternativas: [
-            'Para mostrar que o adversário foi injusto',
-            'Para construir tensão e fazer o leitor sentir como o gol foi improvável',
-            'Para confundir quem está lendo',
-            'Para explicar a regra de impedimento'
+            'Para mostrar que o time adversário foi injusto durante aquela jogada',
+            'Para construir tensão e fazer o leitor sentir como aquele gol foi improvável',
+            'Para confundir quem está lendo e esconder quem realmente fez o gol',
+            'Para conseguir explicar a complicada regra de impedimento no futebol'
           ],
           correta: 1
         }
@@ -1532,30 +1532,30 @@ LEI_ARQ.push({
         {
           enunciado: 'Qual é a real motivação da torcida local?',
           alternativas: [
-            'Pura solidariedade pelo time visitante',
-            'Apoiar quem está jogando contra o rival histórico deles',
-            'Querer aprender com o time visitante',
-            'Foram pagos para fazer isso'
+            'Pura solidariedade e carinho pelo time visitante que veio de longe',
+            'Apoiar quem está jogando contra o rival histórico que eles tanto detestam',
+            'A vontade de aprender alguns truques novos com o time visitante',
+            'O fato de terem sido pagos para encher o estádio naquele dia'
           ],
           correta: 1
         },
         {
           enunciado: 'O detalhe de "refrão inventado na hora" sugere o quê?',
           alternativas: [
-            'A música tinha sido ensaiada dias antes',
-            'Houve uma conexão emocional espontânea entre torcida e jogadores',
-            'Ninguém realmente se importava com o resultado',
-            'A torcida estava distraída'
+            'Que a música, na verdade, tinha sido bem ensaiada alguns dias antes',
+            'Que houve uma conexão emocional espontânea entre a torcida e os jogadores',
+            'Que ninguém na arquibancada se importava de verdade com o resultado',
+            'Que a torcida estava distraída e cantava qualquer coisa sem prestar atenção'
           ],
           correta: 1
         },
         {
           enunciado: 'Qual é a ideia principal que o texto comunica?',
           alternativas: [
-            'Que rivalidade sempre divide as pessoas',
+            'Que a rivalidade entre torcidas sempre acaba dividindo as pessoas',
             'Que torcer pode se rearranjar de formas inesperadas — até inimigos viram aliados temporários',
-            'Que estádios em cidades pequenas são sempre vazios',
-            'Que jogadores não merecem aplauso'
+            'Que os estádios das cidades pequenas estão quase sempre vazios',
+            'Que os jogadores não merecem o aplauso de torcidas que não são as deles'
           ],
           correta: 1
         }
@@ -1576,30 +1576,30 @@ LEI_ARQ.push({
         {
           enunciado: `Qual é o valor real da camisa para ${nm}?`,
           alternativas: [
-            'Material — era a única que ele tinha',
-            'Sentimental — era um elo afetivo com o avô que faleceu',
-            'Estético — era a mais bonita do guarda-roupa',
-            'Prático — era a mais leve para correr'
+            'Um valor material, porque era a única camisa do time que ele possuía',
+            'Um valor sentimental, porque era um elo afetivo com o avô que faleceu',
+            'Um valor estético, porque era a peça mais bonita de todo o guarda-roupa',
+            'Um valor prático, porque era a camisa mais leve e confortável para correr'
           ],
           correta: 1
         },
         {
           enunciado: 'O esforço de secar a camisa por meia hora, manga por manga, comunica o quê?',
           alternativas: [
-            'Que ele não tinha outras peças de roupa',
-            'Que cuidar daquela camisa era cuidar da memória do avô',
-            'Pressa para chegar logo no jogo',
-            'Que ele não confiava em outras camisas'
+            'Que ele não tinha nenhuma outra peça de roupa para vestir naquele dia',
+            'Que cuidar daquela camisa era, na verdade, cuidar da memória do avô dele',
+            'Que ele estava com muita pressa para conseguir chegar logo ao jogo',
+            'Que ele não confiava em nenhuma outra camisa para entrar em campo'
           ],
           correta: 1
         },
         {
           enunciado: 'O gol classificatório, depois da saga toda, dá ao texto que tom?',
           alternativas: [
-            'De tristeza e melancolia',
-            'De recompensa simbólica — esforço afetivo se transformou em vitória esportiva',
-            'De crítica ao adversário',
-            'De indiferença com o resultado'
+            'Um tom de tristeza e melancolia que fica até o final da história',
+            'Um tom de recompensa simbólica — o esforço afetivo virou vitória esportiva',
+            'Um tom de crítica ao time adversário que foi derrotado na partida',
+            'Um tom de indiferença, como se o resultado não tivesse importância'
           ],
           correta: 1
         }
@@ -1621,30 +1621,30 @@ LEI_ARQ.push({
         {
           enunciado: 'Por que o autor diz que o comentarista "narrou sem errar" depois da troca de camisas?',
           alternativas: [
-            'Porque ele finalmente aprendeu os nomes',
+            'Porque ele finalmente conseguiu decorar os nomes de todas as jogadoras',
             'Porque a confusão dele se anulou: errar duas vezes, do mesmo jeito, virou acerto por coincidência',
-            'Porque outro comentarista assumiu o microfone',
-            'Porque alguém mostrou uma cola para ele'
+            'Porque um outro comentarista mais experiente assumiu o microfone da rádio',
+            'Porque alguém da equipe mostrou uma cola com os nomes certos para ele'
           ],
           correta: 1
         },
         {
           enunciado: 'A travessura das jogadoras revela o quê sobre o jeito como elas encaravam o problema?',
           alternativas: [
-            'Eram desorganizadas e bagunceiras',
-            'Tinham senso de humor e cumplicidade — transformaram um incômodo em piada',
-            'Não levavam o jogo a sério',
-            'Detestavam o comentarista pessoalmente'
+            'Que elas eram desorganizadas e bagunceiras dentro e fora de campo',
+            'Que tinham senso de humor e cumplicidade — transformaram um incômodo em piada',
+            'Que não levavam a partida a sério e brincavam em vez de jogar',
+            'Que detestavam pessoalmente o comentarista novato da rádio'
           ],
           correta: 1
         },
         {
           enunciado: 'O texto pode ser lido como uma reflexão sobre o quê?',
           alternativas: [
-            'A importância de nunca errar',
-            'Como dois erros, em sequência, podem se cancelar e gerar um resultado certo',
-            'Por que comentaristas não devem ser novatos',
-            'A vida das jogadoras fora do campo'
+            'Sobre a importância de nunca cometer nenhum tipo de erro na vida',
+            'Sobre como dois erros, em sequência, podem se cancelar e gerar um resultado certo',
+            'Sobre o motivo de comentaristas de rádio nunca deverem ser novatos',
+            'Sobre como é a vida das jogadoras de futebol quando estão longe do campo'
           ],
           correta: 1
         }
@@ -1667,30 +1667,30 @@ LEI_ARQ.push({
         {
           enunciado: `Por que a dona ${nf} bordou um coração em vez da estrela?`,
           alternativas: [
-            'Esqueceu como bordar estrela depois de tantos anos',
-            'O presidente pediu por engano',
-            'Foi uma homenagem silenciosa ao marido que tinha falecido',
-            'Acabou a linha dourada e ela improvisou'
+            'Porque esqueceu como se borda uma estrela depois de tantos anos fazendo isso',
+            'Porque o presidente do clube pediu o coração por engano na hora do recado',
+            'Porque foi uma homenagem silenciosa ao marido dela, que tinha falecido',
+            'Porque a linha dourada acabou no meio e ela teve que improvisar outra coisa'
           ],
           correta: 2
         },
         {
           enunciado: 'O texto mostra que o trabalho dela vai além do esportivo. Por quê?',
           alternativas: [
-            'Porque ela cobrava muito caro pelos bordados',
+            'Porque ela cobrava um preço muito alto por cada bordado que fazia',
             'Porque cada estrela carrega memória, e o coração mistura história do clube com história pessoal',
-            'Porque era o único trabalho dela',
-            'Porque ela era amiga do presidente'
+            'Porque bordar a bandeira era o único trabalho que ela sabia fazer',
+            'Porque ela tinha uma amizade antiga e próxima com o presidente do clube'
           ],
           correta: 1
         },
         {
           enunciado: 'A revelação do segredo só anos depois, pela neta, dá ao texto que efeito?',
           alternativas: [
-            'Mistério resolvido com afeto, valorizando lutos privados que ninguém viu',
-            'Comédia leve sem importância',
-            'Crítica à organização do clube',
-            'Aventura policial'
+            'De mistério resolvido com afeto, valorizando lutos privados que ninguém viu',
+            'De comédia leve e sem importância, feita só para fazer o leitor rir',
+            'De crítica à organização do clube e ao jeito como ele era administrado',
+            'De aventura policial, com um segredo perigoso sendo finalmente desvendado'
           ],
           correta: 0
         }
@@ -1714,30 +1714,30 @@ LEI_ARQ.push({
         {
           enunciado: `O que o detalhe de o presidente "ser estudioso de regras antigas" sugere sobre ele?`,
           alternativas: [
-            'Que é apegado ao passado por nostalgia',
-            'Que é minucioso e enxerga oportunidades onde os outros não enxergam',
-            'Que é amigo do juiz',
-            'Que tem sorte'
+            'Que é apegado ao passado apenas por nostalgia e saudade dos velhos tempos',
+            'Que é minucioso e enxerga oportunidades onde os outros não conseguem enxergar',
+            'Que é amigo pessoal do juiz e por isso conseguia tudo o que queria',
+            'Que tem muita sorte e sempre acaba acertando as coisas por acaso'
           ],
           correta: 1
         },
         {
           enunciado: 'A regra ter "caído no esquecimento" mas continuar "no livro oficial" passa qual ideia?',
           alternativas: [
-            'Que regras antigas sempre são apagadas',
+            'Que as regras antigas acabam sempre sendo apagadas dos livros com o tempo',
             'Que regras esquecidas continuam vivas — basta alguém puxar do passado e elas voltam a valer',
-            'Que livros oficiais estão sempre desatualizados',
-            'Que ninguém respeita a federação'
+            'Que os livros oficiais de regras estão quase sempre desatualizados',
+            'Que ninguém no futebol respeita de verdade as decisões da federação'
           ],
           correta: 1
         },
         {
           enunciado: `O contraste entre o ${placar1} do primeiro jogo e o ${placar2} do refeito sugere o quê?`,
           alternativas: [
-            'Que o primeiro jogo era melhor',
+            'Que o primeiro jogo, sem nenhum gol, era bem melhor do que o segundo',
             'Que dar uma segunda chance pode revelar um jogo totalmente diferente do primeiro',
-            'Que a regra é injusta',
-            'Que os jogadores trapacearam no jogo refeito'
+            'Que a regra antiga é injusta porque obriga a repetir uma partida inteira',
+            'Que os jogadores devem ter trapaceado de alguma forma no jogo refeito'
           ],
           correta: 1
         }
@@ -1745,6 +1745,75 @@ LEI_ARQ.push({
     };
   }
 });
+
+// Caudas naturais que podem ser anexadas a um DISTRATOR para alongá-lo. São
+// fragmentos vagos/hipotéticos que combinam com uma alternativa errada (e até
+// reforçam, para a criança, o tom de "palpite") sem soar artificial. Variados
+// de propósito para não criarem um novo "sinal" identificável.
+const CAUDAS_DISTRATOR = [
+  ', pelo menos é o que parece à primeira vista',
+  ', embora o texto não diga isso com clareza',
+  ', mesmo que não seja bem esse o caso aqui',
+  ', segundo uma leitura apressada da história',
+  ', como alguém poderia imaginar de início',
+  ', ainda que a narração sugira outra coisa',
+  ', o que não se confirma ao ler com atenção',
+  ', conforme se poderia supor sem pensar muito',
+];
+
+// Equilíbrio de COMPRIMENTO (anti-trapaça): no banco original a alternativa
+// correta era a mais longa em 98% das perguntas — a criança acertava só pelo
+// tamanho. Aqui, para a maioria das perguntas, alongamos o MAIOR distrator com
+// uma cauda natural até ele passar a correta, de modo que "a mais longa" deixe
+// de revelar a resposta. Em uma fração das perguntas não mexemos (a correta
+// pode seguir sendo a maior), para a distribuição não virar o oposto degenerado
+// ("a correta é sempre a MENOR"). Tudo determinístico via PRNG seeded.
+function equilibrarComprimento(pergunta) {
+  const alts = pergunta.alternativas.slice();
+  const correta = pergunta.correta;
+  const lenCorreta = alts[correta].length;
+  // ~70% das perguntas recebem o ajuste; o restante fica intacto. Esse alvo
+  // deixa "a correta é a mais longa" perto de 25% (nem o viés antigo de ~98%,
+  // nem o oposto degenerado em que a correta passa a ser sempre a menor).
+  const ajustar = r() < 0.7;
+  if (ajustar) {
+    // Acha o maior distrator (desempate determinístico pelo menor índice).
+    let alvo = -1, melhor = -1;
+    for (let i = 0; i < alts.length; i++) {
+      if (i === correta) continue;
+      if (alts[i].length > melhor) { melhor = alts[i].length; alvo = i; }
+    }
+    if (alvo >= 0) {
+      let usadas = 0;
+      // Anexa caudas (sem repetir) até superar a correta por uma folga pequena.
+      while (alts[alvo].length <= lenCorreta + 1 && usadas < CAUDAS_DISTRATOR.length) {
+        const cauda = CAUDAS_DISTRATOR[Math.floor(r() * CAUDAS_DISTRATOR.length)];
+        // Evita anexar duas vezes a mesma cauda à mesma alternativa.
+        if (alts[alvo].indexOf(cauda) === -1) { alts[alvo] = alts[alvo] + cauda; }
+        usadas++;
+      }
+    }
+  }
+  return { enunciado: pergunta.enunciado, alternativas: alts, correta: correta };
+}
+
+// Embaralha as alternativas de uma pergunta (Fisher-Yates com o PRNG seeded) e
+// remapeia o índice `correta` para a nova posição. Isso quebra o viés de
+// posição na ORIGEM: sem isso, a alternativa "completa" (correta) sempre cairia
+// no mesmo índice escrito no arquétipo. O runtime (js/games/leitura.js) também
+// embaralha — esta etapa garante que o próprio banco já saia balanceado.
+function embaralharAlternativas(pergunta) {
+  const n = pergunta.alternativas.length;
+  const indices = [];
+  for (let i = 0; i < n; i++) { indices.push(i); }
+  for (let i = n - 1; i > 0; i--) {
+    const j = Math.floor(r() * (i + 1));
+    const tmp = indices[i]; indices[i] = indices[j]; indices[j] = tmp;
+  }
+  const novasAlts = indices.map(idx => pergunta.alternativas[idx]);
+  const novaCorreta = indices.indexOf(pergunta.correta);
+  return { enunciado: pergunta.enunciado, alternativas: novasAlts, correta: novaCorreta };
+}
 
 function gerarLeitura() {
   const items = [];
@@ -1769,6 +1838,8 @@ function gerarLeitura() {
         titulo: built.titulo,
         narracao: built.narracao,
         perguntas: built.perguntas
+          .map(equilibrarComprimento)
+          .map(embaralharAlternativas)
       });
       counts[nivel]++;
     }

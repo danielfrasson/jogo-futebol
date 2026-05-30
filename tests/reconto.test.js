@@ -3,7 +3,7 @@
  *
  * Cobre a lógica pura de avaliação (normalização, detecção de termos com
  * coringa de radical, avaliação por elemento e do reconto inteiro, pontuação),
- * a seleção de exercícios e a integridade do banco de 50 histórias.
+ * a seleção de exercícios e a integridade do banco de 100 histórias.
  *
  * Usa a API global do runner (teste/assert/assertEqual). Os módulos exportam
  * via module.exports em Node, e o banco/avaliação se registram em globalThis,
@@ -223,9 +223,9 @@ teste('reconto.voz: sem APIs de navegador, suporte é false e iniciar não quebr
 
 // --- Integridade do banco --------------------------------------------------
 
-teste('banco reconto: 50 histórias, ids únicos, dificuldades válidas', function () {
+teste('banco reconto: 100 histórias, ids únicos, dificuldades válidas', function () {
   var ex = Banco.EXERCICIOS;
-  assertEqual(ex.length, 50);
+  assertEqual(ex.length, 100);
   var vistos = {};
   for (var i = 0; i < ex.length; i++) {
     var e = ex[i];
@@ -255,8 +255,10 @@ teste('banco reconto: filtrar e contar batem com a distribuição', function () 
   var f = Banco.contar({ dificuldade: 'facil' });
   var m = Banco.contar({ dificuldade: 'medio' });
   var d = Banco.contar({ dificuldade: 'dificil' });
-  assertEqual(f + m + d, 50, 'soma das dificuldades = total');
-  assertEqual(Banco.filtrar().length, 50);
+  assertEqual(f + m + d, 100, 'soma das dificuldades = total');
+  assertEqual(Banco.filtrar().length, 100);
+  // pelo menos 70 mais difíceis que o nível básico (médio + difícil)
+  assert((m + d) >= 70, 'esperado >=70 histórias médio+difícil, veio ' + (m + d));
   assertEqual(Banco.filtrar({ dificuldade: 'inexistente' }).length, 0);
   assert(Banco.obterPorId('rec001') !== null, 'obterPorId acha rec001');
   assertEqual(Banco.obterPorId('zzz'), null);
