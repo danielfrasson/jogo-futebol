@@ -44,6 +44,13 @@ teste('reconto.colapsarRepeticoes: tolera pontuação/maiúscula entre as cópia
   assertEqual(Avaliacao.colapsarRepeticoes('nao desistir nao desistir.'), 'nao desistir');
 });
 
+teste('reconto.colapsarRepeticoes: colapsa frase longa (7 palavras) repetida', function () {
+  assertEqual(
+    Avaliacao.colapsarRepeticoes('a historia tinha o fulano e o ciclano a historia tinha o fulano e o ciclano'),
+    'a historia tinha o fulano e o ciclano'
+  );
+});
+
 teste('reconto.colapsarRepeticoes: texto sem repetição fica intacto (a menos de espaços)', function () {
   assertEqual(Avaliacao.colapsarRepeticoes('o time venceu de virada'), 'o time venceu de virada');
   assertEqual(Avaliacao.colapsarRepeticoes('  '), '');
@@ -208,6 +215,41 @@ teste('reconto.escolherExercicios: padrão é 1 história por sessão', function
   var lista = Jogo.escolherExercicios({ dificuldade: 'medio' });
   assertEqual(lista.length, 1);
   assertEqual(Jogo.TAMANHO_SESSAO_PADRAO, 1);
+});
+
+// --- reconto-voz: reinício sem duplicação ------------------------------------
+
+teste('reconto.voz: reinício após pausa cria instância nova e não duplica', function () {
+  var anterior = global.SpeechRecognition;
+  function FakeSR() {
+    this.lang = ''; this.continuous = false; this.interimResults = false;
+    this.onresult = null; this.onerror = null; this.onend = null;
+    this._res = [];
+    FakeSR.instancias.push(this);
+  }
+  FakeSR.instancias = [];
+  FakeSR.prototype.start = function () {};
+  FakeSR.prototype.stop = function () { if (this.onend) { this.onend(); } };
+  FakeSR.prototype.abort = function () {};
+  FakeSR.prototype.emitirFinal = function (texto) {
+    this._res.push({ 0: { transcript: texto }, isFinal: true });
+    if (this.onresult) { this.onresult({ results: this._res, resultIndex: this._res.length - 1 }); }
+  };
+  global.SpeechRecognition = FakeSR;
+  try {
+    var capturado = null;
+    var ctrl = Voz.iniciar({ aoFinal: function (t) { capturado = t; }, aoParcial: function () {} });
+    assert(ctrl, 'controlador deve existir');
+    FakeSR.instancias[0].emitirFinal('a historia tinha o fulano e o ciclano');
+    FakeSR.instancias[0].onend();            // simula pausa -> reinício automático
+    assertEqual(FakeSR.instancias.length, 2); // PROVA: instância nova criada
+    FakeSR.instancias[1].emitirFinal('por isso ele venceu');
+    ctrl.parar();                             // -> stop() -> onend() -> aoFinal
+    assertEqual(capturado, 'a historia tinha o fulano e o ciclano por isso ele venceu');
+  } finally {
+    if (anterior === undefined) { delete global.SpeechRecognition; }
+    else { global.SpeechRecognition = anterior; }
+  }
 });
 
 // --- Voz: no-op gracioso em Node -------------------------------------------

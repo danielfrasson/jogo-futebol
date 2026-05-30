@@ -81,13 +81,19 @@
     var aoAudio = typeof opcoes.aoAudio === 'function' ? opcoes.aoAudio : function () {};
 
     // Acúmulo da transcrição em DUAS partes para evitar duplicação:
-    //  - textoCommitado: finais de sessões de reconhecimento já encerradas
-    //    (a cada reinício automático após pausa, "fechamos" a sessão atual).
-    //  - finais da sessão atual: RECONSTRUÍDOS a cada onresult iterando todos
-    //    os resultados desde 0. Não acumulamos via `resultIndex` porque em
-    //    vários navegadores (Chrome Android em especial) o índice não avança
-    //    de forma confiável e o mesmo trecho final reaparece — o que fazia o
-    //    texto repetir a mesma fala inúmeras vezes.
+    //  - textoCommitado: finais de sessões de reconhecimento já encerradas.
+    //    A cada reinício automático (pausa da criança) "fechamos" a sessão
+    //    atual: seu texto vai para textoCommitado e finaisSessao é zerado.
+    //  - finaisSessao: finais da sessão CORRENTE, reconstruídos a cada
+    //    onresult iterando os resultados do índice 0. Não usamos resultIndex
+    //    pois em vários navegadores (Chrome Android) ele não avança de forma
+    //    confiável e o mesmo trecho final reaparece.
+    //
+    // ATENÇÃO: no Chrome Android, evento.results NÃO zera ao chamar
+    // rec.start() numa mesma instância — o próximo onresult reconstrói do
+    // índice 0 todo o histórico anterior. Por isso, a cada reinício criamos
+    // uma INSTÂNCIA NOVA de SpeechRecognition: instância nova = results vazio
+    // = cada sessão é commitada exatamente uma vez, sem duplicação crescente.
     var textoCommitado = '';
     var finaisSessao = '';
     var pararSolicitado = false;
@@ -98,13 +104,21 @@
       return (textoCommitado + ' ' + finaisSessao).replace(/\s+/g, ' ').trim();
     }
 
-    var rec = new SR();
-    rec.lang = opcoes.lang || 'pt-BR';
-    rec.continuous = true;
-    rec.interimResults = true;
-    try { rec.maxAlternatives = 1; } catch (_e) { /* alguns navegadores */ }
+    // Fábrica: cria e configura uma nova instância de SpeechRecognition com
+    // os handlers nomeados abaixo. Chamada tanto na inicialização quanto a
+    // cada reinício automático após pausa.
+    function configurarRec(r) {
+      r.lang = opcoes.lang || 'pt-BR';
+      r.continuous = true;
+      r.interimResults = true;
+      try { r.maxAlternatives = 1; } catch (_e) { /* alguns navegadores */ }
+      r.onresult = aoResultado;
+      r.onerror = aoErroRec;
+      r.onend = aoFim;
+      return r;
+    }
 
-    rec.onresult = function (evento) {
+    function aoResultado(evento) {
       var finais = '';
       var interim = '';
       for (var i = 0; i < evento.results.length; i++) {
@@ -119,31 +133,32 @@
       // 'finais' é o texto final COMPLETO desta sessão (reconstruído, não somado).
       finaisSessao = finais;
       aoParcial((textoCommitado + ' ' + finais + ' ' + interim).replace(/\s+/g, ' ').trim());
-    };
+    }
 
-    rec.onerror = function (evento) {
+    function aoErroRec(evento) {
       var codigo = evento && evento.error ? evento.error : 'desconhecido';
-      // 'no-speech' e 'aborted' não são fatais; o onend decide o que fazer.
+      // 'no-speech' e 'aborted' não são fatais; o aoFim decide o que fazer.
       if (codigo === 'not-allowed' || codigo === 'service-not-allowed' ||
           codigo === 'audio-capture' || codigo === 'network') {
         erroFatal = true;
       }
       aoErro(codigo, mensagemErro(codigo));
-    };
+    }
 
-    rec.onend = function () {
+    function aoFim() {
       // Em modo contínuo, o navegador pode encerrar sozinho após silêncio.
       // Enquanto a criança não pediu para parar e não houve erro fatal,
       // reiniciamos para não cortar a história no meio de uma pausa. Antes de
       // reiniciar, "fechamos" a sessão: movemos os finais dela para o texto
-      // commitado e zeramos finaisSessao — assim a nova sessão começa do zero
-      // e nada é contado duas vezes.
+      // commitado e zeramos finaisSessao. Em seguida criamos uma INSTÂNCIA
+      // NOVA (não reutilizamos a mesma) para garantir results vazio — evita
+      // que o Chrome Android reconstrua do índice 0 e duplique o texto.
       if (!pararSolicitado && !erroFatal) {
         if (finaisSessao) {
           textoCommitado = (textoCommitado + ' ' + finaisSessao).replace(/\s+/g, ' ').trim();
           finaisSessao = '';
         }
-        try { rec.start(); return; } catch (_e) { /* cai para encerrar */ }
+        try { rec = configurarRec(new SR()); rec.start(); return; } catch (_e) { /* cai para encerrar */ }
       }
       if (encerrado) { return; }
       encerrado = true;
@@ -152,7 +167,11 @@
       // finalizamos para não avançar a tela com transcrição vazia.
       if (erroFatal) { return; }
       aoFinal(combinar());
-    };
+    }
+
+    // Instância inicial — reatribuída a cada reinício automático em aoFim.
+    var rec = null;
+    rec = configurarRec(new SR());
 
     // --- Gravação de áudio opcional (independente da transcrição) ----------
     var mediaRecorder = null;

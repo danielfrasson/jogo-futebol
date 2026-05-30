@@ -140,7 +140,7 @@
     var arr = String(texto === null || texto === undefined ? '' : texto)
       .split(/\s+/).filter(Boolean);
     var keys = arr.map(chavePalavra); // espelho de arr só para comparar
-    var MAX = (typeof maxJanela === 'number' && maxJanela > 0) ? maxJanela : 6;
+    var MAX = (typeof maxJanela === 'number' && maxJanela > 0) ? maxJanela : 10;
     var mudou = true;
     var guarda = 0; // trava contra laço infinito em entradas patológicas
     while (mudou && guarda < 2000) {
