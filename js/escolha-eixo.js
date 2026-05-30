@@ -48,6 +48,13 @@
       icone: '🎤',
       descricao: 'Ouça uma história e conte com as suas palavras.',
       modulo: 'JogoReconto'
+    },
+    {
+      id: 'olho-aguia',
+      rotulo: 'Olho de Águia',
+      icone: '🦅',
+      descricao: 'Ache os detalhes que mudam, somem ou se escondem.',
+      modulo: 'JogoOlhoAguia'
     }
   ];
 

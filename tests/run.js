@@ -94,8 +94,9 @@ function limparAmbienteGlobal() {
   // serem carregados (Storage, Moedas, Historico, Dificuldade, etc.)
   ['Storage', 'Moedas', 'Historico', 'Dificuldade', 'Ui', 'Audio', 'Som',
    'Jogador', 'Loja', 'Comemoracao', 'Progresso', 'EscolhaEixo',
-   'JogoLeitura', 'JogoEscrita', 'JogoMatematica',
+   'JogoLeitura', 'JogoEscrita', 'JogoMatematica', 'JogoOlhoAguia',
    'LeituraExercicios', 'EscritaExercicios', 'MatematicaExercicios',
+   'OlhoAguiaExercicios', 'OlhoAguiaAvaliacao',
    'Embaralhar',
    'localStorage', 'window', 'document'].forEach(function (k) {
     try { delete global[k]; } catch (_e) { /* segue */ }

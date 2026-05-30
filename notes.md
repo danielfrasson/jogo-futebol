@@ -230,19 +230,42 @@ A pedido do Daniel, e para agilizar sem sobrecarregar o contexto, usei **5 agent
 - Pipeline reproduzível para gerar em paralelo sem conflito: cada agente escreve um fragmento em `tools/reconto-fragmentos/NN.js`; `tools/checar-fragmento.js` valida cada fragmento (schema + auto-detecção ≥4/5); `tools/montar-reconto.js` valida o conjunto (ids únicos, distribuição, NUL) e **gera** `js/data/reconto-exercicios.js`.
 - Auto-detecção média **4,95/5**. Teste de integridade atualizado (100, ≥70 médio+difícil).
 
+## Entrega C — Novo eixo "Olho de Águia" (atenção a detalhes visuais, com agentes paralelos)
+
+5º eixo, focado na **recomendação 2** (ponto mais baixo do laudo — Completar Figuras, WISC). A pedido do Daniel, e para agilizar sem sobrecarregar o contexto, construído com **agentes especializados em paralelo** (banco, lógica+testes, UI+CSS) e integração/verificação pelo orquestrador.
+
+**Honra o princípio "100% offline"** (ao contrário do reconto): visuais **só com emoji** (Unicode, sem assets externos), roda em `file://` sem internet.
+
+Três mecânicas misturadas numa sessão de 6 quadros (`TAMANHO_SESSAO_PADRAO`):
+- **intruso** — ache o símbolo diferente numa grade de iguais (toque na célula).
+- **mudou** — memorize a grade (fase com timer de ~3,5 s, pulada sob `prefers-reduced-motion`); depois ela reaparece com 1+ célula trocada e a criança toca no que mudou (avaliação por conjunto de índices, ordem-insensível).
+- **contar** — quantos alvos há entre distratores temáticos? (múltipla escolha entre 4 opções plausíveis).
+
+Arquitetura (vanilla, IIFE, mesmo padrão dos outros eixos):
+- `js/games/olho-aguia-avaliacao.js` — lógica pura testável: `escolherExercicios`, `calcularMoedas`, `avaliarResposta` (dispatch por mecânica), `conjuntosIguais`, `contarOcorrencias`.
+- `js/games/olho-aguia.js` — UI/orquestração; despacha por `exercicio.mecanica`; reusa `SessaoBootstrap`/`CabecalhoSessao` (rótulo "Quadro")/`SessaoResumo`/`DificuldadeAdaptativa`/`Historico`/`Moedas`/`Comemoracao`.
+- `js/data/olho-aguia-exercicios.js` — banco **GERADO** por `tools/gerar-olho-aguia.js` (PRNG LCG de seed fixa, reprodutível). **162 exercícios** (54 fácil / 54 médio / 54 difícil; 18 por mecânica em cada nível). Para ampliar/ajustar: editar o gerador e rodar `node tools/gerar-olho-aguia.js`.
+- Integração: 5º cartão (🦅) em `js/escolha-eixo.js`; scripts em `index.html` (cache `?v=9`); seção de estilos em `css/style.css` (`.olho-aguia__*`, grade com `--colunas`, estados de célula, fase de memorizar, `prefers-reduced-motion`).
+- Testes: `tests/olho-aguia.test.js` — **24 casos**, incluindo o cross-check de que a **resposta canônica de cada exercício do banco é aceita pelo avaliador**.
+
+**Correção de concordância (contar):** a verificação no navegador mostrou "Quantas peixes 🐟…" (errado — "peixe" é masculino). Adicionado campo `genero` ('m'/'f') a cada conjunto em `tools/gerar-olho-aguia.js`; o enunciado agora escolhe "Quantos"/"Quantas". Banco regenerado (IDs estáveis — a ordem das chamadas do PRNG não mudou).
+
+**Verificação:** fluxo real ponta-a-ponta no navegador (menu → Jogar → escolha-eixo com o cartão 🦅 → sessão "Quadro 1 de 6" → render das 3 mecânicas, acerto com moeda, sem erros no console) + `node tests/run.js` → **198 verdes**.
+
 ## Estado atual do projeto (2026-05-30)
 
-- **4 eixos**: Leitura, Escrita, Matemática, **Reconto (Contar Histórias)**.
+- **5 eixos**: Leitura, Escrita, Matemática, **Reconto (Contar Histórias)**, **Olho de Águia (atenção visual)**.
 - **Reconto**: 100 histórias (30/35/35). Microfone/voz exigem Chrome/Edge (ou Safari); Firefox cai para digitar.
+- **Olho de Águia**: 162 quadros (54/54/54, 3 mecânicas), só emoji — funciona offline em `file://`.
 - **Leitura**: sem viés de comprimento nem de posição.
-- **Testes**: `node tests/run.js` → **174 verdes**.
-- **Publicado** em GitHub Pages, cache `?v=8` (commit `a4fa373`).
-- Histórico de commits desta evolução: `5bbaf57` (eixo reconto) → `5e1c584` (fix duplicação) → `a4fa373` (viés leitura + 100 histórias).
+- **Testes**: `node tests/run.js` → **198 verdes**.
+- **Publicado** em GitHub Pages, cache `?v=9`.
+- Histórico de commits desta evolução: `5bbaf57` (eixo reconto) → `5e1c584` (fix duplicação) → `a4fa373` (viés leitura + 100 histórias) → Olho de Águia (este).
 
 ## Próximos passos
 
-1. **Validação com o Benjamin** (Daniel): testar o reconto (transcrição limpa? avaliação justa? histórias difíceis no ponto certo de desafio?) e a leitura (ele acha algum novo "atalho"?). Dar refresh forçado (Ctrl+F5 / puxar no celular) na primeira vez.
-2. **Eixo "Olho de Águia" (atenção a detalhes visuais)** — recomendação 2, ainda **não iniciado**. Decidido com o Daniel: várias mecânicas misturadas ("o que mudou?", "encontre o intruso", "3 diferenças", "memória visual"), usando emojis/SVG (sem precisar de artista). Fazer **depois** da validação do reconto.
-3. Conforme o retorno do uso real: afinar a tolerância da avaliação do reconto e/ou a calibração das histórias difíceis.
-4. (manutenção) para ampliar o reconto no futuro, basta adicionar/editar fragmentos em `tools/reconto-fragmentos/` e rodar `node tools/montar-reconto.js`.
+1. **Publicar** (Daniel ou Claude, sob pedido): `git push` para o GitHub Pages servir o novo eixo. Depois, refresh forçado (Ctrl+F5 / puxar no celular) na primeira vez.
+2. **Validação com o Benjamin** (Daniel): testar o **Olho de Águia** (as 3 mecânicas fazem sentido? o timer da "mudou" dá tempo de memorizar? a dificuldade desafia?), o reconto (transcrição limpa? avaliação justa?) e a leitura (ele acha algum novo "atalho"?).
+3. Conforme o retorno do uso real: afinar a calibração do Olho de Águia (tamanho das grades, tempo de memorizar), a tolerância da avaliação do reconto e/ou a calibração das histórias difíceis.
+4. (manutenção) Para ampliar bancos gerados: Olho de Águia → editar `tools/gerar-olho-aguia.js` e rodar; reconto → editar fragmentos em `tools/reconto-fragmentos/` e rodar `node tools/montar-reconto.js`.
 

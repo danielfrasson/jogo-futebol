@@ -2141,3 +2141,182 @@ noscript p {
     animation: none;
   }
 }
+
+/* === Minigame Olho de Águia (Atenção Visual) ============================ */
+
+/* Enunciado do quadro: pergunta grande e centrada, fácil de focar. */
+.olho-aguia__enunciado {
+  font-size: var(--tam-medio);
+  font-weight: var(--peso-medio);
+  text-align: center;
+  line-height: var(--altura-linha-confortavel);
+  max-width: none;
+}
+
+.olho-aguia__pista {
+  text-align: center;
+  font-size: var(--tam-base);
+  margin-top: calc(-1 * var(--esp-2));
+}
+
+/* Grade de símbolos: nº de colunas vem de --colunas (estilo inline na tela).
+   Centralizada e com largura limitada para não esticar células em telas largas. */
+.olho-aguia__grade {
+  display: grid;
+  grid-template-columns: repeat(var(--colunas, 3), 1fr);
+  gap: var(--esp-2);
+  justify-content: center;
+  align-items: stretch;
+  max-width: 32rem;
+  margin: 0 auto;
+}
+
+/* Célula: emoji grande, alvo de toque generoso, anel de foco bem visível.
+   Serve tanto para <button> (tocável) quanto para <span> (somente leitura). */
+.olho-aguia__celula {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--alvo-toque-grande);
+  aspect-ratio: 1 / 1;
+  padding: var(--esp-2);
+  border: 2px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  background-color: var(--cor-fundo-elevada);
+  color: var(--cor-texto);
+  cursor: pointer;
+  transition: transform var(--transicao-rapida),
+              border-color var(--transicao-rapida),
+              background-color var(--transicao-rapida);
+}
+
+.olho-aguia__emoji {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+/* Maior em quadros pequenos (poucas colunas) para crianças enxergarem melhor. */
+.olho-aguia__grade[style*="--colunas:3"] .olho-aguia__emoji {
+  font-size: 2.6rem;
+}
+
+.olho-aguia__celula:hover {
+  border-color: var(--futebol-grama-escura);
+  transform: translateY(-2px);
+}
+
+.olho-aguia__celula:focus-visible {
+  outline: 4px solid var(--cor-foco);
+  outline-offset: 3px;
+}
+
+/* Célula passiva (mecânica "contar" / quadro a memorizar): sem cursor/hover. */
+.olho-aguia__celula--leitura {
+  cursor: default;
+}
+
+.olho-aguia__celula--leitura:hover {
+  border-color: var(--cor-borda);
+  transform: none;
+}
+
+/* Seleção da criança na fase "o que mudou" (antes de conferir). */
+.olho-aguia__celula--selecionada {
+  border-color: var(--futebol-dourado-escuro);
+  background-color: var(--futebol-dourado-suave);
+  transform: translateY(-2px);
+}
+
+/* Estados pós-resposta: acerto em verde, célula errada tocada em laranja.
+   Reusa os tokens semânticos já usados em leitura/feedback. */
+.olho-aguia__celula--correta {
+  border-color: var(--cor-acerto);
+  background-color: var(--cor-acerto-fundo);
+  color: var(--cor-acerto);
+  animation: olho-aguia-revelar var(--transicao-padrao) both;
+}
+
+.olho-aguia__celula--errada {
+  border-color: var(--cor-erro);
+  background-color: var(--cor-erro-fundo);
+  color: var(--cor-erro);
+}
+
+/* Célula desabilitada após responder: sem hover, opacidade preservada para
+   não esconder o gabarito (verde/laranja continuam legíveis). */
+.olho-aguia__celula:disabled {
+  cursor: default;
+  transform: none;
+}
+
+.olho-aguia__celula:disabled:hover {
+  transform: none;
+}
+
+/* Banner de memorização (fase 1 do "mudou"). */
+.olho-aguia__memorizar {
+  text-align: center;
+  font-size: var(--tam-medio);
+  font-weight: var(--peso-forte);
+  color: var(--futebol-dourado-escuro);
+  background-color: var(--futebol-dourado-suave);
+  border-radius: var(--raio-medio);
+  padding: var(--esp-3) var(--esp-4);
+  border-left: 6px solid var(--futebol-dourado);
+}
+
+/* Botões de número da mecânica "contar". */
+.olho-aguia__opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--esp-3);
+}
+
+.olho-aguia__opcao {
+  min-width: var(--alvo-toque-grande);
+  min-height: var(--alvo-toque-grande);
+  font-size: var(--tam-grande);
+  font-weight: var(--peso-forte);
+}
+
+.olho-aguia__opcao--correta {
+  border-color: var(--cor-acerto);
+  background-color: var(--cor-acerto-fundo);
+  color: var(--cor-acerto);
+}
+
+.olho-aguia__opcao--errada {
+  border-color: var(--cor-erro);
+  background-color: var(--cor-erro-fundo);
+  color: var(--cor-erro);
+}
+
+/* Rodapé de feedback inline (mensagem + botão "próxima"), igual à leitura. */
+.olho-aguia__feedback-rodape {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  margin-top: var(--esp-4);
+}
+
+/* Realce extra quando o acerto vale gol (dificuldade alta). */
+.olho-aguia__feedback-rodape .feedback--gol {
+  border-left-color: var(--futebol-dourado);
+}
+
+@keyframes olho-aguia-revelar {
+  from { transform: scale(0.85); }
+  to { transform: scale(1); }
+}
+
+/* Movimento reduzido: sem animação de revelação das células. */
+@media (prefers-reduced-motion: reduce) {
+  .olho-aguia__celula,
+  .olho-aguia__celula--correta,
+  .olho-aguia__celula--selecionada {
+    transition: none;
+    animation: none;
+    transform: none;
+  }
+}
